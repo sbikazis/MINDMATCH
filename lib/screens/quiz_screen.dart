@@ -59,7 +59,7 @@ class _QuizScreenState extends State<QuizScreen>{
             AnimatedSwitcher(duration:const Duration(milliseconds:160),child:isSelected?const Icon(Icons.check_circle_rounded,key:ValueKey('selected'),color:mindLilac,size:21):const Icon(Icons.circle_outlined,key:ValueKey('unselected'),color:Color(0xFF5A506B),size:20)),
           ])));
         })),
-        SizedBox(width:double.infinity,height:56,child:FilledButton(onPressed:selected<0?null:_next,style:FilledButton.styleFrom(backgroundColor:mindPurple,disabledBackgroundColor:const Color(0xFF302744),foregroundColor:const Color(0xFF160F25),disabledForegroundColor:mindMuted,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(17))),child:Row(mainAxisAlignment:MainAxisAlignment.center,children:[Text(_current==mindMatchQuestions.length-1?s.t('reveal'):s.t('continue'),style:const TextStyle(fontWeight:FontWeight.w900,fontSize:11,letterSpacing:.6)),const SizedBox(width:8),const Icon(Icons.arrow_forward_rounded,size:17)]))),
+        SizedBox(width:double.infinity,height:56,child:FilledButton(onPressed:selected<0?null:_next,style:FilledButton.styleFrom(backgroundColor:mindPurple,disabledBackgroundColor:const Color(0xFF302744),foregroundColor:const Color(0xFF160F25),disabledForegroundColor:mindMuted,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(17))),child:Row(mainAxisAlignment:MainAxisAlignment.center,children:[Text(_current==_questions.length-1?s.t('reveal'):s.t('continue'),style:const TextStyle(fontWeight:FontWeight.w900,fontSize:11,letterSpacing:.6)),const SizedBox(width:8),const Icon(Icons.arrow_forward_rounded,size:17)]))),
       ]))),
     );
   }
