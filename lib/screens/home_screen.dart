@@ -73,9 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
-                    colors: [const Color(0xFF7452C8).withValues(alpha: .45), const Color(0xFF171326).withValues(alpha: .05)],
+                    colors: [const Color(0xFF7452C8).withOpacity(.45), const Color(0xFF171326).withOpacity(.05)],
                   ),
-                  border: Border.all(color: const Color(0xFF6F55A4).withValues(alpha: .45)),
+                  border: Border.all(color: const Color(0xFF6F55A4).withOpacity(.45)),
                 ),
                 child: const Icon(Icons.psychology_alt_rounded, size: 104, color: Color(0xFFC5B1FF)),
               ),
