@@ -3,7 +3,7 @@ import 'package:mindmatch/services/challenge_codec.dart';
 
 void main() {
   group('ChallengeCodec', () {
-    test('round trips a fourteen-answer challenge', () {
+    test('round trips a twenty-eight-answer challenge', () {
       final answers = List<int>.generate(28, (index) => index % 4);
       final code = ChallengeCodec.encode(answers);
       final decoded = ChallengeCodec.decode(code);
@@ -11,9 +11,10 @@ void main() {
     });
 
     test('preserves the selected question set for daily and themed challenges', () {
-      const ids = ['midnight', 'mystery'];
-      final decoded = ChallengeCodec.decode(ChallengeCodec.encode([1, 3], questionIds: ids));
-      expect(decoded.answers, [1, 3]);
+      const ids = ['midnight', 'mystery', 'power', 'weekend', 'truth', 'time', 'choice'];
+      final answers = [1, 3, 2, 0, 1, 2, 3];
+      final decoded = ChallengeCodec.decode(ChallengeCodec.encode(answers, questionIds: ids));
+      expect(decoded.answers, answers);
       expect(decoded.questionIds, ids);
     });
 
