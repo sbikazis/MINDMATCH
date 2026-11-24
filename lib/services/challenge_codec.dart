@@ -15,7 +15,7 @@ class ChallengeCodec {
     return '$_prefix${base64Url.encode(utf8.encode(payload)).replaceAll('=', '')}';
   }
 
-  static ChallengeData decode(String raw, {int expectedQuestions = 14}) {
+  static ChallengeData decode(String raw, {int expectedQuestions = 28}) {
     final code = raw.trim();
     if (!code.startsWith(_prefix)) {
       throw const FormatException('This does not look like a MINDMATCH code.');
