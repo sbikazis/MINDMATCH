@@ -11,7 +11,7 @@ The Flutter application now includes native Android and iOS host projects.
 - Android target SDK: 36
 - iOS deployment target: 15.0
 
-The identifier is a default based on the repository owner namespace. Before the first store submission, confirm it is available and reserve the same identifier in Google Play Console and Apple Developer.
+These are the final application identifiers for this project. Keep them unchanged across development, signing, deep links, and store configuration. Store ownership is a separate step: register `com.sbikazis.mindmatch` in Google Play Console and create the matching App ID in Apple Developer before submission. Public checks cannot guarantee availability or reserve either identifier.
 
 ## Android
 
@@ -41,7 +41,7 @@ Open `ios/Runner.xcworkspace` in Xcode. Select your Apple Developer Team and con
 ## Still required before store release
 
 - Create final production launcher/app icons for Android and iOS.
-- Confirm the application identifier is available and reserve it in both stores.
+- Register `com.sbikazis.mindmatch` in Google Play Console and create the matching App ID in Apple Developer (availability and ownership are not verified by this repository).
 - Configure Android release signing and Apple signing/team.
 - Build and test on physical devices.
 - Complete store listing, privacy URL, age/content rating, and platform policy declarations.
