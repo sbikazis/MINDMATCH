@@ -4,6 +4,7 @@ import '../models/quiz_question.dart';
 import '../models/quiz_catalog.dart';
 import '../main.dart';
 import '../services/challenge_codec.dart';
+import '../services/mindmatch_ads.dart';
 import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final s = AppStrings.of(context);
     final language = Localizations.localeOf(context).languageCode;
-    return Scaffold(body: Stack(children: [
+    return Scaffold(bottomNavigationBar: const MindMatchBannerAd(), body: Stack(children: [
       Positioned(top: -130, right: -100, child: Container(width: 320, height: 320, decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [mindPurple.withOpacity(.22), mindBackground.withOpacity(0)])))),
       Positioned(bottom: 70, left: -160, child: Container(width: 300, height: 300, decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [const Color(0xFF5B3D9D).withOpacity(.18), mindBackground.withOpacity(0)])))),
       SafeArea(child: ListView(padding: const EdgeInsets.fromLTRB(22, 16, 22, 30), children: [
@@ -96,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text('${pack.questions.length} ' + s.t('questionsShort'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w800)),const SizedBox(width:7),const Icon(Icons.arrow_forward_ios_rounded,size:13,color:mindMuted),
         ])))))),
         const SizedBox(height:7),
+        const MindMatchNativeAd(),
         const SizedBox(height:25),
         Row(children:[const Expanded(child:Divider(color:Color(0xFF352B4A))),Padding(padding:const EdgeInsets.symmetric(horizontal:12),child:Text(s.t('already'),style:const TextStyle(fontSize:9,letterSpacing:.7,color:mindMuted,fontWeight:FontWeight.w800))),const Expanded(child:Divider(color:Color(0xFF352B4A)))]),
         const SizedBox(height:17),
@@ -109,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ])),
         const SizedBox(height:19),
         Center(child:Text(s.t('privacy'),style:const TextStyle(fontSize:9,letterSpacing:.5,color:mindMuted,fontWeight:FontWeight.w700))),
+        ValueListenableBuilder<bool>(valueListenable: MindMatchAds.instance.privacyOptionsVisible,builder: (context, visible, _) => visible ? Center(child: TextButton(onPressed: MindMatchAds.instance.showPrivacyOptions, child: Text(s.t('privacyChoices')))) : const SizedBox.shrink()),
       ])),
     ]));
   }
