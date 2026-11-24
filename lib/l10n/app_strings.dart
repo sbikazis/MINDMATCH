@@ -7,7 +7,7 @@ class AppStrings {
 
   static const _values = <String, Map<String, String>>{
     'brandTag': {'en':'THE SOCIAL MIND GAME','ar':'لعبة العقول الاجتماعية','fr':'LE JEU DES ESPRITS'},
-    'quickQs': {'en':'7 QUICK Qs','ar':'٧ أسئلة سريعة','fr':'7 QUESTIONS'},
+    'quickQs': {'en':'14 QUICK QUESTIONS','ar':'١٤ سؤالاً سريعاً','fr':'14 QUESTIONS'},
     'eyebrow': {'en':'✦  ONE GAME. TWO MINDS.  ✦','ar':'✦  لعبة واحدة، عقلان  ✦','fr':'✦  UN JEU. DEUX ESPRITS.  ✦'},
     'heroTitle': {'en':'SAME BRAIN?\nLET’S FIND OUT.','ar':'هل نفكر بنفس الطريقة؟\nلنكتشف ذلك!','fr':'LE MÊME CERVEAU ?\nVÉRIFIONS !'},
     'heroBody': {'en':'Your choices say more than you think. Answer unexpected questions, challenge your people, and see where your minds meet.','ar':'اختياراتك تكشف أكثر مما تتوقع. أجب عن أسئلة ممتعة، وتحدَّ أصدقاءك واكتشف مدى تشابه عقولكم.','fr':'Tes choix en disent long. Réponds à des questions surprenantes, défie tes proches et découvre vos points communs.'},
