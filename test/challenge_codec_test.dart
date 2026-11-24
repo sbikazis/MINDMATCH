@@ -10,7 +10,7 @@ void main() {
       expect(decoded.answers, answers);
     });
 
-    test('rejects a code with the wrong prefix', () {
+    test('preserves the selected question set for daily and themed challenges', () {\n      const ids = ['midnight', 'mystery'];\n      final decoded = ChallengeCodec.decode(ChallengeCodec.encode([1, 3], questionIds: ids));\n      expect(decoded.answers, [1, 3]);\n      expect(decoded.questionIds, ids);\n    });\n\n    test('rejects a code with the wrong prefix', () {
       expect(() => ChallengeCodec.decode('NOT-A-CODE'), throwsA(isA<FormatException>()));
     });
 
