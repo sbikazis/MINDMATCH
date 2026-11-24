@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 class QuizQuestion {
   const QuizQuestion({required this.id, required this.prompt, required this.options, required this.category});
   final String id;
