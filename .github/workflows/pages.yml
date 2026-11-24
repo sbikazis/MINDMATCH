@@ -3,7 +3,7 @@ name: Deploy public MINDMATCH pages
 on:
   push:
     branches:
-      - feature/mindmatch-mvp
+      - main
     paths:
       - "docs/**"
       - ".github/workflows/pages.yml"
