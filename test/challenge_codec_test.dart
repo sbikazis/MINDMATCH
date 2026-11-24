@@ -3,8 +3,8 @@ import 'package:mindmatch/services/challenge_codec.dart';
 
 void main() {
   group('ChallengeCodec', () {
-    test('round trips a seven-answer challenge', () {
-      const answers = [0, 1, 2, 3, 0, 2, 1];
+    test('round trips a fourteen-answer challenge', () {
+      const answers = [0, 1, 2, 3, 0, 2, 1, 3, 2, 1, 0, 3, 2, 1];
       final code = ChallengeCodec.encode(answers);
       final decoded = ChallengeCodec.decode(code);
       expect(decoded.answers, answers);
@@ -20,7 +20,7 @@ void main() {
     });
 
     test('rejects an answer outside the supported option range', () {
-      final code = ChallengeCodec.encode([0, 1, 2, 3, 0, 2, 4]);
+      final code = ChallengeCodec.encode([0, 1, 2, 3, 0, 2, 1, 3, 2, 1, 0, 3, 2, 4]);
       expect(() => ChallengeCodec.decode(code), throwsA(isA<FormatException>()));
     });
   });
