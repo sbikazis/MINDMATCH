@@ -27,3 +27,11 @@ flutter run
 ```
 
 See [native platform setup](docs/PLATFORM_SETUP.md) for Android/iOS build and signing instructions.
+
+## Privacy and support
+
+- Privacy policy: [MINDMATCH Privacy Policy](https://sbikazis.github.io/MINDMATCH/privacy.html)
+- Support: [MINDMATCH Help & Support](https://sbikazis.github.io/MINDMATCH/support.html)
+- Public information site: [MINDMATCH](https://sbikazis.github.io/MINDMATCH/)
+
+These pages are published from `docs/` using GitHub Pages. The repository's GitHub Pages source must be set to **GitHub Actions** under Settings → Pages before the first deployment can publish successfully.

@@ -44,6 +44,8 @@ Open `ios/Runner.xcworkspace` in Xcode. Select your Apple Developer Team and con
 - Register `com.sbikazis.mindmatch` in Google Play Console and create the matching App ID in Apple Developer (availability and ownership are not verified by this repository).
 - Configure Android release signing and Apple signing/team.
 - Build and test on physical devices.
-- Complete store listing, privacy URL, age/content rating, and platform policy declarations.
+- Publish the public privacy policy and support pages; configure GitHub Pages with **GitHub Actions** as the source, then verify both URLs load publicly.
+- Add the published privacy policy URL to the Google Play listing and complete the Data safety form based on the exact release build.
+- Complete store listing, age/content rating, and platform policy declarations.
 
 No signing keys, Apple Team ID, AdMob IDs, or store credentials are included in this repository.
