@@ -27,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
   void _joinChallenge() {
-    try { final challenge = ChallengeCodec.decode(_codeController.text);\n      if (challenge.questionIds.isNotEmpty && challenge.questionIds.any((id) => !mindMatchQuestions.any((question) => question.id == id))) { throw const FormatException('This challenge uses an unknown question set.'); }\n      setState(() => _codeError = null); _startQuiz(challenge: challenge); }
+    try { final challenge = ChallengeCodec.decode(_codeController.text);
+      if (challenge.questionIds.isNotEmpty && challenge.questionIds.any((id) => !mindMatchQuestions.any((question) => question.id == id))) { throw const FormatException('This challenge uses an unknown question set.'); }
+      setState(() => _codeError = null); _startQuiz(challenge: challenge); }
     on FormatException catch (error) { setState(() => _codeError = error.message); }
   }
   Widget _brandMark() => Container(
