@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
   void _joinChallenge() {
-    try { final challenge = ChallengeCodec.decode(_codeController.text); setState(() => _codeError = null); _startQuiz(challenge: challenge); }
+    try { final challenge = ChallengeCodec.decode(_codeController.text, expectedQuestions: mindMatchQuestions.length); setState(() => _codeError = null); _startQuiz(challenge: challenge); }
     on FormatException catch (error) { setState(() => _codeError = error.message); }
   }
   Widget _brandMark() => Container(
