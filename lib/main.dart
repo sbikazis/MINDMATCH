@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'screens/home_screen.dart';
+
+const mindBackground = Color(0xFF090812);
+const mindSurface = Color(0xFF171326);
+const mindSurfaceRaised = Color(0xFF211A35);
+const mindPurple = Color(0xFF9B7BFF);
+const mindLilac = Color(0xFFD0C0FF);
+const mindGold = Color(0xFFFFD58A);
+const mindMuted = Color(0xFFAAA2BC);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,44 +19,24 @@ class MindMatchApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const background = Color(0xFF0B0914);
-    const surface = Color(0xFF171326);
-    const accent = Color(0xFFB69CFF);
-
+    const outline = Color(0xFF352B4A);
     return MaterialApp(
       title: 'MINDMATCH',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: background,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: accent,
-          brightness: Brightness.dark,
-          surface: surface,
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: background,
-          foregroundColor: Colors.white,
-          centerTitle: false,
-          elevation: 0,
-        ),
+        scaffoldBackgroundColor: mindBackground,
+        colorScheme: ColorScheme.fromSeed(seedColor: mindPurple, brightness: Brightness.dark, surface: mindSurface),
+        appBarTheme: const AppBarTheme(backgroundColor: mindBackground, foregroundColor: Colors.white, centerTitle: false, elevation: 0, surfaceTintColor: Colors.transparent),
+        snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating, backgroundColor: mindSurfaceRaised, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
         inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: surface,
-          hintStyle: const TextStyle(color: Color(0xFF91899F)),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF302744)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF302744)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: accent, width: 1.5),
-          ),
+          filled: true, fillColor: mindSurface,
+          hintStyle: const TextStyle(color: mindMuted),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: outline)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: outline)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: mindLilac, width: 1.5)),
         ),
       ),
       home: const HomeScreen(),
