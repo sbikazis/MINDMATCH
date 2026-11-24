@@ -12,7 +12,7 @@ A playful social mind-matching game. Answer the same questions as a friend, comp
 ## Native platforms
 - Android host project: `android/`
 - iOS host project: `ios/`
-- Default application ID and bundle identifier: `com.sbikazis.mindmatch` (confirm availability before first store upload).
+- Final Android application ID and iOS bundle identifier: `com.sbikazis.mindmatch` (store registration is still required before submission).
 - Android minimum SDK: 24; iOS deployment target: 15.0.
 
 ## Status
