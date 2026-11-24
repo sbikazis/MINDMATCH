@@ -2,7 +2,9 @@
 
 - [x] Add native Android and iOS host projects with a consistent default application identifier (verify store availability before release).
 - [ ] Confirm application ID / Android package name is available and reserve it before first Play upload.
-- [ ] Add final production launcher icon and Android adaptive icon; add iOS 1024px App Store icon.
+- [x] Add Android legacy vector launcher icon and Android 8+ adaptive launcher icon.
+- [x] Add editable iOS brand artwork (SVG asset).
+- [ ] Export and configure the required 1024 × 1024 PNG in the iOS AppIcon asset catalog.
 - [x] Add English, Arabic RTL, and French localization foundations.
 - [x] Native share sheet for challenge codes and QR display for challenge codes.
 - [x] Branded result-card capture and image sharing implementation (verify on physical devices).
