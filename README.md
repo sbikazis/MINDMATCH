@@ -9,8 +9,14 @@ A playful social mind-matching game. Answer the same questions as a friend, comp
 - Arabic, English, and French foundations.
 - Privacy-first: answers stay on-device unless the user deliberately shares a challenge code.
 
+## Native platforms
+- Android host project: `android/`
+- iOS host project: `ios/`
+- Default application ID and bundle identifier: `com.sbikazis.mindmatch` (confirm availability before first store upload).
+- Android minimum SDK: 24; iOS deployment target: 15.0.
+
 ## Status
-Initial MVP scaffold. Ads and remote/group challenges are intentionally not enabled until real AdMob IDs and a secure backend are configured.
+Native Android and iOS host projects are included. Ads and remote/group challenges are intentionally not enabled until real AdMob IDs and a secure backend are configured.
 
 ## Run
 ```sh
@@ -19,3 +25,5 @@ flutter analyze
 flutter test
 flutter run
 ```
+
+See [native platform setup](docs/PLATFORM_SETUP.md) for Android/iOS build and signing instructions.
