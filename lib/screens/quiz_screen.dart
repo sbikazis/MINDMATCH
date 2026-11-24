@@ -42,7 +42,7 @@ class _QuizScreenState extends State<QuizScreen>{
     final selected=_answers.length>_current?_answers[_current]:-1;
     final progress=(_current+1)/_questions.length;
     return Scaffold(
-      appBar:AppBar(leading:IconButton(icon:const Icon(Icons.close_rounded),onPressed:()=>Navigator.of(context).pop()),title:Text(s.t('mindLab'),style:const TextStyle(fontSize:11,letterSpacing:2,fontWeight:FontWeight.w900)),actions:[Padding(padding:const EdgeInsetsDirectional.only(end:21),child:Center(child:Text('${_current+1} / ${mindMatchQuestions.length}',style:const TextStyle(color:mindLilac,fontSize:12,fontWeight:FontWeight.w900))))]),
+      appBar:AppBar(leading:IconButton(icon:const Icon(Icons.close_rounded),onPressed:()=>Navigator.of(context).pop()),title:Text(s.t('mindLab'),style:const TextStyle(fontSize:11,letterSpacing:2,fontWeight:FontWeight.w900)),actions:[Padding(padding:const EdgeInsetsDirectional.only(end:21),child:Center(child:Text('${_current+1} / ${_questions.length}',style:const TextStyle(color:mindLilac,fontSize:12,fontWeight:FontWeight.w900))))]),
       body:SafeArea(child:Padding(padding:const EdgeInsets.fromLTRB(22,14,22,22),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
         Row(children:[Expanded(child:ClipRRect(borderRadius:BorderRadius.circular(20),child:TweenAnimationBuilder<double>(tween:Tween(begin:0,end:progress),duration:const Duration(milliseconds:420),curve:Curves.easeOutCubic,builder:(_,value,__)=>LinearProgressIndicator(value:value,minHeight:7,backgroundColor:mindSurfaceRaised,color:mindPurple)))),const SizedBox(width:12),Text('${(progress*100).round()}%',style:const TextStyle(color:mindMuted,fontSize:10,fontWeight:FontWeight.w800))]),
         const SizedBox(height:31),
