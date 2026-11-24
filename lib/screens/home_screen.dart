@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_strings.dart';
+import '../models/quiz_question.dart';
 import '../main.dart';
 import '../services/challenge_codec.dart';
 import 'quiz_screen.dart';
