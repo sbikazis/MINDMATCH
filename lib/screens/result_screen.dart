@@ -10,6 +10,7 @@ import '../l10n/app_strings.dart';
 import '../main.dart';
 import '../models/quiz_question.dart';
 import '../services/challenge_codec.dart';
+import '../services/mindmatch_ads.dart';
 
 class ResultScreen extends StatefulWidget{
   const ResultScreen({super.key,required this.answers,required this.quizQuestions,this.incomingChallenge});
@@ -66,6 +67,7 @@ class _ResultScreenState extends State<ResultScreen>{
     final score=other==null?null:calculateMatchPercent(widget.answers,other.answers);
     final matches=other==null?0:List<int>.generate(widget.answers.length,(i)=>i).where((i)=>widget.answers[i]==other.answers[i]).length;
     return Scaffold(
+      bottomNavigationBar: const MindMatchBannerAd(),
       appBar:AppBar(automaticallyImplyLeading:false,title:Text(s.t('report'),style:const TextStyle(fontSize:11,letterSpacing:1.5,fontWeight:FontWeight.w900)),actions:[IconButton(onPressed:()=>Navigator.of(context).popUntil((route)=>route.isFirst),icon:const Icon(Icons.close_rounded))]),
       body:SafeArea(child:ListView(padding:const EdgeInsets.fromLTRB(22,14,22,30),children:[
         RepaintBoundary(key: _resultCardKey, child: Container(padding:const EdgeInsets.fromLTRB(20,27,20,25),decoration:BoxDecoration(borderRadius:BorderRadius.circular(29),gradient:const LinearGradient(begin:Alignment.topLeft,end:Alignment.bottomRight,colors:[Color(0xFF49316F),Color(0xFF211832),Color(0xFF15121F)]),border:Border.all(color:const Color(0xFF8065B4).withOpacity(.8)),boxShadow:[BoxShadow(color:mindPurple.withOpacity(.12),blurRadius:30,offset:const Offset(0,12))]),child:Column(children:[
