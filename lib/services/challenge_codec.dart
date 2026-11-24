@@ -33,7 +33,7 @@ class ChallengeCodec {
         throw const FormatException('This challenge version is not supported.');
       }
       final rawAnswers = decoded['a'];
-      if (rawAnswers is! List || rawAnswers.isEmpty || (expectedQuestions != null && rawAnswers.length != expectedQuestions)) {
+      if (rawAnswers is! List || !const [7, 14, 28].contains(rawAnswers.length) || (expectedQuestions != null && rawAnswers.length != expectedQuestions)) {
         throw const FormatException('This challenge has an invalid answer set.');
       }
       final answers = rawAnswers.map((value) {
