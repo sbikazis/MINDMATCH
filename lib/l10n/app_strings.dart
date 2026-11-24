@@ -50,6 +50,8 @@ class AppStrings {
     'different': {'en':'DIFFERENT','ar':'مختلف','fr':'DIFFÉRENT'},
     'shareChallenge': {'en':'SHARE MY CHALLENGE','ar':'شارك التحدي','fr':'PARTAGER MON DÉFI'},
     'shareScore': {'en':'SHARE MY MATCH SCORE','ar':'شارك نتيجة التطابق','fr':'PARTAGER MON SCORE'},
+    'showQr': {'en':'SHOW CHALLENGE QR','ar':'اعرض رمز QR للتحدي','fr':'AFFICHER LE QR DU DÉFI'},
+    'qrTitle': {'en':'LET THEM SCAN YOUR CHALLENGE','ar':'دع صديقك يمسح رمز التحدي','fr':'FAIS SCANNER TON DÉFI'},
     'back': {'en':'BACK TO MIND LAB','ar':'العودة إلى مختبر العقول','fr':'RETOUR AU LABO'},
     'copiedToast': {'en':'Challenge code copied. Send it to your friend!','ar':'تم نسخ رمز التحدي. أرسله إلى صديقك!','fr':'Code copié. Envoie-le à ton ami !'},
     'sharedToast': {'en':'Your result is ready to share!','ar':'نتيجتك جاهزة للمشاركة!','fr':'Ton résultat est prêt à être partagé !'},
