@@ -29,7 +29,14 @@ const mindMatchQuestions = <QuizQuestion>[
   QuizQuestion(id:'truth',category:'INSTINCT',prompt:'Your friend asks for an honest opinion. You…',options:['Say exactly what I think','Find the kindest way to say it','Ask if they really want the truth','Wait until the right moment']),
   QuizQuestion(id:'time',category:'IMAGINATION',prompt:'Which place would you explore first?',options:['The deep ocean','Outer space','An ancient lost city','A future version of Earth']),
   QuizQuestion(id:'choice',category:'VIBE',prompt:'Pick the message that feels most like you.',options:['Let us do it!','I have a plan.','This is going to be interesting.','Tell me everything.']),
-];
+  QuizQuestion(id:'betrayal',category:'FRIENDSHIP',prompt:'Your group chat goes silent after your message. What is your move?',options:['Send a dramatic follow-up','Drop a meme and disappear','Assume everyone is busy','Call the one friend who always replies']),
+  QuizQuestion(id:'plot',category:'CHAOS',prompt:'You wake up famous tomorrow. What is your first move?',options:['Find out why','Call my closest people','Enjoy the moment quietly','Use the attention for good']),
+  QuizQuestion(id:'secret',category:'TRUST',prompt:'Someone tells you a secret that could change everything. You…',options:['Keep it locked forever','Ask how I can help','Help solve the problem','Tell the hard truth kindly']),
+  QuizQuestion(id:'island',category:'ADVENTURE',prompt:'You are stranded on an island. Choose one companion.',options:['The clever problem-solver','The fearless adventurer','The funny mood-lifter','The calm one who never panics']),
+  QuizQuestion(id:'thoughts',category:'CURIOSITY',prompt:'You can hear one person’s thoughts for 10 minutes. Whose?',options:['My best friend','My future self','Someone I admire','Someone I cannot understand']),
+  QuizQuestion(id:'rewind',category:'MEMORIES',prompt:'You can relive one day. Which would you choose?',options:['My happiest childhood day','A day with someone I miss','The day everything changed','A day I would do differently']),
+  QuizQuestion(id:'risk',category:'BOLDNESS',prompt:'A once-in-a-lifetime opportunity arrives, but it is risky. You…',options:['Jump in immediately','Research every detail','Ask someone I trust','Wait for a sign, then decide']),
+]; 
 
 const _translations = <String, Map<String, List<String>>>{
 'midnight': {
@@ -60,4 +67,11 @@ const _translations = <String, Map<String, List<String>>>{
 'ar':['الأجواء','اختر العبارة الأقرب إلى شخصيتك.','هيا نفعلها!','لدي خطة.','سيكون هذا مثيراً للاهتمام.','أخبرني بكل شيء.'],
 'fr':['AMBIANCE','Choisis la phrase qui te ressemble.','On y va !','J’ai un plan.','Ça promet d’être intéressant.','Raconte-moi tout.'],
 },
+'betrayal': {'ar':['الصداقة','ساد الصمت في مجموعة الأصدقاء بعد رسالتك. ماذا تفعل؟','أرسل رسالة درامية','أرسل ميم وأختفي','الجميع مشغول غالباً','أتصل بالصديق الذي يرد دائماً'],'fr':['AMITIÉ','Le groupe devient silencieux après ton message. Tu…','Envoies un message dramatique','Balances un meme et disparais','Ils sont sûrement occupés','Appelles ton ami toujours présent']},
+'plot': {'ar':['الفوضى','استيقظت مشهوراً غداً. ما أول شيء تفعله؟','أكتشف السبب','أتصل بأقرب الناس','أستمتع بهدوء','أستغل الاهتمام لشيء مفيد'],'fr':['CHAOS','Demain, tu te réveilles célèbre. Tu…','Découvres pourquoi','Appelles tes proches','Profites tranquillement','Utilises cette attention pour le bien']},
+'secret': {'ar':['الثقة','أخبرك شخص بسر قد يغير كل شيء. ماذا تفعل؟','أحفظه إلى الأبد','أسأله كيف أساعده','أساعده في الحل','أقول الحقيقة بلطف'],'fr':['CONFIANCE','Quelqu’un te confie un secret important. Tu…','Le gardes pour toujours','Demandes comment aider','Aides à trouver une solution','Dis la vérité avec tact']},
+'island': {'ar':['المغامرة','أنت عالق في جزيرة. من تختار؟','الذكي الذي يجد الحلول','المغامر الشجاع','خفيف الظل','الهادئ الذي لا يفزع'],'fr':['AVENTURE','Tu es coincé sur une île. Qui choisis-tu ?','Le débrouillard','L’aventurier intrépide','Le drôle','Le calme']},
+'thoughts': {'ar':['الفضول','يمكنك سماع أفكار شخص لعشر دقائق. من تختار؟','أفضل صديق','نسختي المستقبلية','شخص أُعجب به','شخص لا أفهمه'],'fr':['CURIOSITÉ','Tu peux lire les pensées 10 minutes. Qui ?','Mon meilleur ami','Mon moi futur','Quelqu’un que j’admire','Une personne mystérieuse']},
+'rewind': {'ar':['الذكريات','يمكنك عيش يوم من جديد. أي يوم؟','أسعد يوم في طفولتي','يوم مع شخص أفتقده','اليوم الذي تغير فيه كل شيء','يوم أتمنى تغييره'],'fr':['SOUVENIRS','Tu peux revivre une journée. Laquelle ?','Mon plus beau jour d’enfance','Un jour avec quelqu’un qui me manque','Le jour où tout a changé','Un jour à refaire']},
+'risk': {'ar':['الجرأة','فرصة العمر أمامك لكنها محفوفة بالمخاطر. ماذا تفعل؟','أقفز إليها فوراً','أبحث في التفاصيل','أستشير شخصاً أثق به','أنتظر إشارة ثم أقرر'],'fr':['AUDACE','Une occasion unique se présente, mais elle est risquée. Tu…','Je fonce','J’étudie les détails','Je demande conseil','J’attends un signe']},
 };
