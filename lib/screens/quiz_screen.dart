@@ -7,19 +7,28 @@ import '../services/challenge_codec.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key,this.incomingChallenge});
+  const QuizScreen({super.key,this.incomingChallenge,this.questions});
   final ChallengeData? incomingChallenge;
+  final List<QuizQuestion>? questions;
   @override
   State<QuizScreen> createState()=>_QuizScreenState();
 }
 class _QuizScreenState extends State<QuizScreen>{
   final List<int> _answers=[];
+  List<QuizQuestion> get _questions {
+    final ids = widget.incomingChallenge?.questionIds;
+    if (ids != null && ids.isNotEmpty) {
+      return ids.map((id) => mindMatchQuestions.firstWhere((question) => question.id == id)).toList(growable:false);
+    }
+    if (widget.incomingChallenge != null) return mindMatchQuestions.take(widget.incomingChallenge!.answers.length).toList(growable:false);
+    return widget.questions ?? mindMatchQuestions;
+  }
   int _current=0;
   void _select(int answer){HapticFeedback.selectionClick();setState((){if(_answers.length>_current){_answers[_current]=answer;}else{_answers.add(answer);}});}
   void _next(){
     if(_answers.length<=_current)return;
     HapticFeedback.lightImpact();
-    if(_current<mindMatchQuestions.length-1){setState(()=>_current++);return;}
+    if(_current<_questions.length-1){setState(()=>_current++);return;}
     Navigator.of(context).pushReplacement(PageRouteBuilder<void>(
       pageBuilder:(_,animation,secondaryAnimation)=>ResultScreen(answers:List<int>.unmodifiable(_answers),incomingChallenge:widget.incomingChallenge),
       transitionsBuilder:(_,animation,secondaryAnimation,child)=>FadeTransition(opacity:CurvedAnimation(parent:animation,curve:Curves.easeOut),child:child),
@@ -28,10 +37,10 @@ class _QuizScreenState extends State<QuizScreen>{
   @override
   Widget build(BuildContext context){
     final s=AppStrings.of(context);
-    final question=mindMatchQuestions[_current];
+    final question=_questions[_current];
     final localized=localizedQuestion(question,s.languageCode);
     final selected=_answers.length>_current?_answers[_current]:-1;
-    final progress=(_current+1)/mindMatchQuestions.length;
+    final progress=(_current+1)/_questions.length;
     return Scaffold(
       appBar:AppBar(leading:IconButton(icon:const Icon(Icons.close_rounded),onPressed:()=>Navigator.of(context).pop()),title:Text(s.t('mindLab'),style:const TextStyle(fontSize:11,letterSpacing:2,fontWeight:FontWeight.w900)),actions:[Padding(padding:const EdgeInsetsDirectional.only(end:21),child:Center(child:Text('${_current+1} / ${mindMatchQuestions.length}',style:const TextStyle(color:mindLilac,fontSize:12,fontWeight:FontWeight.w900))))]),
       body:SafeArea(child:Padding(padding:const EdgeInsets.fromLTRB(22,14,22,22),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
