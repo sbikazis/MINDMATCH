@@ -45,7 +45,7 @@ class _ResultScreenState extends State<ResultScreen>{
       body:SafeArea(child:ListView(padding:const EdgeInsets.fromLTRB(22,14,22,30),children:[
         Container(padding:const EdgeInsets.fromLTRB(20,27,20,25),decoration:BoxDecoration(borderRadius:BorderRadius.circular(29),gradient:const LinearGradient(begin:Alignment.topLeft,end:Alignment.bottomRight,colors:[Color(0xFF49316F),Color(0xFF211832),Color(0xFF15121F)]),border:Border.all(color:const Color(0xFF8065B4).withOpacity(.8)),boxShadow:[BoxShadow(color:mindPurple.withOpacity(.12),blurRadius:30,offset:const Offset(0,12))]),child:Column(children:[
           const Icon(Icons.auto_awesome_rounded,color:mindGold,size:27),const SizedBox(height:13),
-          Text(score==null?s.t('yourMind'):'$score%',textAlign:TextAlign.center,style:const TextStyle(fontSize:score==null?40:58,height:1.05,fontWeight:FontWeight.w900,letterSpacing:-1.5)),
+          Text(score==null?s.t('yourMind'):'$score%',textAlign:TextAlign.center,style:TextStyle(fontSize:score==null?40:58,height:1.05,fontWeight:FontWeight.w900,letterSpacing:-1.5)),
           const SizedBox(height:10),
           Text(score==null?s.t('firstHalf'):s.verdict(score),style:const TextStyle(color:mindLilac,fontSize:10,fontWeight:FontWeight.w900,letterSpacing:1.2)),
           const SizedBox(height:18),Container(height:1,width:70,color:const Color(0xFF8B73B4).withOpacity(.5)),const SizedBox(height:16),
