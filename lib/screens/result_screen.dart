@@ -38,7 +38,7 @@ class _ResultScreenState extends State<ResultScreen>{
   Widget build(BuildContext context){
     final s=AppStrings.of(context);
     final other=widget.incomingChallenge;
-    final score=other==null?null:ChallengeCodec.calculateMatchPercent(widget.answers,other.answers);
+    final score=other==null?null:calculateMatchPercent(widget.answers,other.answers);
     final matches=other==null?0:List<int>.generate(widget.answers.length,(i)=>i).where((i)=>widget.answers[i]==other.answers[i]).length;
     return Scaffold(
       appBar:AppBar(automaticallyImplyLeading:false,title:Text(s.t('report'),style:const TextStyle(fontSize:11,letterSpacing:1.5,fontWeight:FontWeight.w900)),actions:[IconButton(onPressed:()=>Navigator.of(context).popUntil((route)=>route.isFirst),icon:const Icon(Icons.close_rounded))]),
@@ -59,7 +59,7 @@ class _ResultScreenState extends State<ResultScreen>{
           const SizedBox(height:12),
           SizedBox(height:53,child:FilledButton.icon(onPressed:_copyChallenge,icon:Icon(_copied?Icons.check_rounded:Icons.copy_rounded),label:Text(_copied?s.t('copied'):s.t('copyCode')),style:FilledButton.styleFrom(backgroundColor:mindPurple,foregroundColor:const Color(0xFF160F25),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(17))))),
           const SizedBox(height:9),
-          SizedBox(height:51,child:OutlinedButton.icon(onPressed:_shareChallenge,icon:const Icon(Icons.ios_share_rounded),label:Text(s.t('shareScore')),style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(16))))),
+          SizedBox(height:51,child:OutlinedButton.icon(onPressed:_shareChallenge,icon:const Icon(Icons.ios_share_rounded),label:Text(s.t('shareChallenge')),style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(16))))),
           const SizedBox(height:12),
           Text(s.t('howTo'),textAlign:TextAlign.center,style:const TextStyle(color:mindMuted,fontSize:11,height:1.5)),
         ]else...[
