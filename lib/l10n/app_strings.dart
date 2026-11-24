@@ -32,6 +32,7 @@ class AppStrings {
     'where': {'en':'WHERE YOUR MINDS MET','ar':'أين تلاقت عقولكما؟','fr':'VOS POINTS COMMUNS'},
     'match': {'en':'MATCH','ar':'تطابق','fr':'PAREIL'},
     'different': {'en':'DIFFERENT','ar':'مختلف','fr':'DIFFÉRENT'},
+    'shareChallenge': {'en':'SHARE MY CHALLENGE','ar':'شارك التحدي','fr':'PARTAGER MON DÉFI'},
     'shareScore': {'en':'SHARE MY MATCH SCORE','ar':'شارك نتيجة التطابق','fr':'PARTAGER MON SCORE'},
     'back': {'en':'BACK TO MIND LAB','ar':'العودة إلى مختبر العقول','fr':'RETOUR AU LABO'},
     'copiedToast': {'en':'Challenge code copied. Send it to your friend!','ar':'تم نسخ رمز التحدي. أرسله إلى صديقك!','fr':'Code copié. Envoie-le à ton ami !'},
