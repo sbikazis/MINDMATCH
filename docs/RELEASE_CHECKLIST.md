@@ -3,7 +3,8 @@
 - [ ] Confirm application ID / Android package name before first Play upload.
 - [ ] Add launcher icon and adaptive icon.
 - [ ] Add English, Arabic RTL, and French localization.
-- [ ] Add native share sheet, QR, and branded result image.
+- [x] Native share sheet for challenge codes and QR display for challenge codes.
+- [x] Branded result-card capture and image sharing implementation (verify on physical devices).
 - [ ] Add accessibility labels and text scaling checks.
 - [ ] Add AdMob app ID and real ad unit IDs; never ship test IDs as production.
 - [ ] Complete privacy policy, Data safety form, and consent requirements for ads.
