@@ -24,7 +24,8 @@ android {
 
     defaultConfig {
         applicationId = "com.sbikazis.mindmatch"
-        minSdk = flutter.minSdkVersion
+        // Google Mobile Ads SDK 25.5.0 requires Android API 24 or newer.
+        minSdk = maxOf(flutter.minSdkVersion, 24)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

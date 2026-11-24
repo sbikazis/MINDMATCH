@@ -18,6 +18,7 @@ class AppStrings {
     'codeHint': {'en':'MM1-XXXX-XXXX','ar':'MM1-XXXX-XXXX','fr':'MM1-XXXX-XXXX'},
     'enter': {'en':'ENTER THE MATCH','ar':'ابدأ التحدي','fr':'REJOINDRE LE DÉFI'},
     'privacy': {'en':'NO ACCOUNT  ·  NO PRESSURE  ·  JUST VIBES','ar':'بلا حساب · بلا ضغط · فقط متعة','fr':'SANS COMPTE · SANS PRESSION · JUSTE DU FUN'},
+    'privacyChoices': {'en':'Ad privacy choices','ar':'خيارات خصوصية الإعلانات','fr':'Options de confidentialité des annonces'},
     'dailyLabel': {'en':'TODAY’S MIND QUEST','ar':'تحدي العقول اليومي','fr':'DÉFI DU JOUR'},
     'dailyFresh': {'en':'FRESH EVERY DAY','ar':'يتجدد يومياً','fr':'NOUVEAU CHAQUE JOUR'},
     'dailyTitle': {'en':'One day. One new mind challenge.','ar':'يوم جديد، وتحدٍ جديد للعقول.','fr':'Un jour. Un nouveau défi mental.'},

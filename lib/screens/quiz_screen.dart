@@ -4,6 +4,7 @@ import '../l10n/app_strings.dart';
 import '../main.dart';
 import '../models/quiz_question.dart';
 import '../services/challenge_codec.dart';
+import '../services/mindmatch_ads.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -25,10 +26,12 @@ class _QuizScreenState extends State<QuizScreen>{
   }
   int _current=0;
   void _select(int answer){HapticFeedback.selectionClick();setState((){if(_answers.length>_current){_answers[_current]=answer;}else{_answers.add(answer);}});}
-  void _next(){
+  Future<void> _next() async {
     if(_answers.length<=_current)return;
     HapticFeedback.lightImpact();
     if(_current<_questions.length-1){setState(()=>_current++);return;}
+    await MindMatchAds.instance.showInterstitialBetweenRounds();
+    if (!mounted) return;
     Navigator.of(context).pushReplacement(PageRouteBuilder<void>(
       pageBuilder:(_,animation,secondaryAnimation)=>ResultScreen(answers:List<int>.unmodifiable(_answers),quizQuestions:_questions,incomingChallenge:widget.incomingChallenge),
       transitionsBuilder:(_,animation,secondaryAnimation,child)=>FadeTransition(opacity:CurvedAnimation(parent:animation,curve:Curves.easeOut),child:child),
