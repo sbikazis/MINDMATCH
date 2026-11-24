@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/home_screen.dart';
+import 'services/mindmatch_ads.dart';
 
 const mindBackground = Color(0xFF090812);
 const mindSurface = Color(0xFF171326);
@@ -13,6 +15,7 @@ final ValueNotifier<Locale> mindLocale = ValueNotifier(const Locale('en'));
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  unawaited(MindMatchAds.instance.initialize());
   runApp(const MindMatchApp());
 }
 
