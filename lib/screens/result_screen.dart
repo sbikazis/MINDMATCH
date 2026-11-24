@@ -66,7 +66,7 @@ class _ResultScreenState extends State<ResultScreen>{
           Text(s.t('where'),style:const TextStyle(fontSize:10,letterSpacing:1.4,color:mindLilac,fontWeight:FontWeight.w900)),
           const SizedBox(height:12),
           ...List.generate(widget.answers.length,(index){
-            final matched=widget.answers[index]==other.answers[index];
+            final matched=widget.answers[index]==other!.answers[index];
             final localized=localizedQuestion(mindMatchQuestions[index],s.languageCode);
             return Container(margin:const EdgeInsets.only(bottom:9),padding:const EdgeInsets.all(14),decoration:BoxDecoration(color:mindSurface,borderRadius:BorderRadius.circular(16),border:Border.all(color:matched?const Color(0xFF426B60):const Color(0xFF3B304D))),child:Row(children:[
               Container(width:31,height:31,alignment:Alignment.center,decoration:BoxDecoration(color:matched?const Color(0xFF24463D):mindSurfaceRaised,borderRadius:BorderRadius.circular(10)),child:Text('${index+1}',style:TextStyle(color:matched?const Color(0xFF9CE2C8):mindLilac,fontWeight:FontWeight.w900,fontSize:11))),
