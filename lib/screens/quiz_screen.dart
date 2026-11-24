@@ -30,7 +30,7 @@ class _QuizScreenState extends State<QuizScreen>{
     HapticFeedback.lightImpact();
     if(_current<_questions.length-1){setState(()=>_current++);return;}
     Navigator.of(context).pushReplacement(PageRouteBuilder<void>(
-      pageBuilder:(_,animation,secondaryAnimation)=>ResultScreen(answers:List<int>.unmodifiable(_answers),incomingChallenge:widget.incomingChallenge),
+      pageBuilder:(_,animation,secondaryAnimation)=>ResultScreen(answers:List<int>.unmodifiable(_answers),quizQuestions:_questions,incomingChallenge:widget.incomingChallenge),
       transitionsBuilder:(_,animation,secondaryAnimation,child)=>FadeTransition(opacity:CurvedAnimation(parent:animation,curve:Curves.easeOut),child:child),
     ));
   }
