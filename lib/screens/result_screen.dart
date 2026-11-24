@@ -7,15 +7,16 @@ import '../models/quiz_question.dart';
 import '../services/challenge_codec.dart';
 
 class ResultScreen extends StatefulWidget{
-  const ResultScreen({super.key,required this.answers,this.incomingChallenge});
+  const ResultScreen({super.key,required this.answers,required this.quizQuestions,this.incomingChallenge});
   final List<int> answers;
+  final List<QuizQuestion> quizQuestions;
   final ChallengeData? incomingChallenge;
   @override
   State<ResultScreen> createState()=>_ResultScreenState();
 }
 class _ResultScreenState extends State<ResultScreen>{
   bool _copied=false;
-  String get _challengeCode=>ChallengeCodec.encode(widget.answers);
+  String get _challengeCode=>ChallengeCodec.encode(widget.answers,questionIds:widget.quizQuestions.map((question)=>question.id).toList(growable:false));
   Future<void> _copyChallenge()async{
     await Clipboard.setData(ClipboardData(text:_challengeCode));
     if(!mounted)return;
@@ -67,7 +68,7 @@ class _ResultScreenState extends State<ResultScreen>{
           const SizedBox(height:12),
           ...List.generate(widget.answers.length,(index){
             final matched=widget.answers[index]==other!.answers[index];
-            final localized=localizedQuestion(mindMatchQuestions[index],s.languageCode);
+            final localized=localizedQuestion(widget.quizQuestions[index],s.languageCode);
             return Container(margin:const EdgeInsets.only(bottom:9),padding:const EdgeInsets.all(14),decoration:BoxDecoration(color:mindSurface,borderRadius:BorderRadius.circular(16),border:Border.all(color:matched?const Color(0xFF426B60):const Color(0xFF3B304D))),child:Row(children:[
               Container(width:31,height:31,alignment:Alignment.center,decoration:BoxDecoration(color:matched?const Color(0xFF24463D):mindSurfaceRaised,borderRadius:BorderRadius.circular(10)),child:Text('${index+1}',style:TextStyle(color:matched?const Color(0xFF9CE2C8):mindLilac,fontWeight:FontWeight.w900,fontSize:11))),
               const SizedBox(width:12),Expanded(child:Text(localized.category,style:const TextStyle(fontWeight:FontWeight.w800,fontSize:11,letterSpacing:.5))),
