@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_strings.dart';
 import '../models/quiz_question.dart';
+import '../models/quiz_catalog.dart';
 import '../main.dart';
 import '../services/challenge_codec.dart';
 import 'quiz_screen.dart';
@@ -16,9 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() { _codeController.dispose(); super.dispose(); }
 
-  void _startQuiz({ChallengeData? challenge}) {
+  void _startQuiz({ChallengeData? challenge, List<QuizQuestion>? questions}) {
     Navigator.of(context).push(PageRouteBuilder<void>(
-      pageBuilder: (_, animation, secondaryAnimation) => QuizScreen(incomingChallenge: challenge),
+      pageBuilder: (_, animation, secondaryAnimation) => QuizScreen(incomingChallenge: challenge, questions: questions),
       transitionsBuilder: (_, animation, secondaryAnimation, child) {
         final curve = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
         return FadeTransition(opacity: curve, child: SlideTransition(position: Tween<Offset>(begin: const Offset(0, .035), end: Offset.zero).animate(curve), child: child));
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
   void _joinChallenge() {
-    try { final challenge = ChallengeCodec.decode(_codeController.text, expectedQuestions: mindMatchQuestions.length); setState(() => _codeError = null); _startQuiz(challenge: challenge); }
+    try { final challenge = ChallengeCodec.decode(_codeController.text);\n      if (challenge.questionIds.isNotEmpty && challenge.questionIds.any((id) => !mindMatchQuestions.any((question) => question.id == id))) { throw const FormatException('This challenge uses an unknown question set.'); }\n      setState(() => _codeError = null); _startQuiz(challenge: challenge); }
     on FormatException catch (error) { setState(() => _codeError = error.message); }
   }
   Widget _brandMark() => Container(
@@ -77,6 +78,22 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(width:double.infinity,height:58,child:FilledButton(onPressed:()=>_startQuiz(),style:FilledButton.styleFrom(backgroundColor:mindPurple,foregroundColor:const Color(0xFF130D22),elevation:0,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(18))),child:Text(s.t('start'),style:const TextStyle(fontWeight:FontWeight.w900,letterSpacing:.5,fontSize:12)))),
           ]),
         ),
+        const SizedBox(height:18),
+        Container(padding:const EdgeInsets.all(18),decoration:BoxDecoration(borderRadius:BorderRadius.circular(23),gradient:const LinearGradient(colors:[Color(0xFF3B2B5D),Color(0xFF211832)]),border:Border.all(color:const Color(0xFF8A70C0).withOpacity(.65))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+          Row(children:[const Icon(Icons.today_rounded,color:mindGold,size:19),const SizedBox(width:8),Text(s.t('dailyLabel'),style:const TextStyle(color:mindGold,fontSize:10,fontWeight:FontWeight.w900,letterSpacing:1.2)),const Spacer(),Container(padding:const EdgeInsets.symmetric(horizontal:8,vertical:5),decoration:BoxDecoration(color:const Color(0xFF171326).withOpacity(.7),borderRadius:BorderRadius.circular(20)),child:Text(s.t('dailyFresh'),style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w800)))]),
+          const SizedBox(height:10),Text(s.t('dailyTitle'),style:const TextStyle(fontSize:20,fontWeight:FontWeight.w900)),const SizedBox(height:5),Text(s.t('dailyDesc'),style:const TextStyle(color:mindMuted,fontSize:11,height:1.5)),
+          const SizedBox(height:14),SizedBox(width:double.infinity,height:48,child:FilledButton.icon(onPressed:()=>_startQuiz(questions:dailyQuestions(DateTime.now())),icon:const Icon(Icons.bolt_rounded,size:18),label:Text(s.t('playDaily'),style:const TextStyle(fontSize:10,fontWeight:FontWeight.w900,letterSpacing:.7)),style:FilledButton.styleFrom(backgroundColor:mindGold,foregroundColor:const Color(0xFF211832),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(14))))),
+        ])),
+        const SizedBox(height:24),
+        Text(s.t('packsTitle'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:1.3,color:mindLilac)),
+        const SizedBox(height:5),Text(s.t('packsDesc'),style:const TextStyle(fontSize:11,color:mindMuted)),
+        const SizedBox(height:12),
+        ...quizPacks.map((pack)=>Padding(padding:const EdgeInsets.only(bottom:9),child:Material(color:mindSurface,borderRadius:BorderRadius.circular(17),child:InkWell(borderRadius:BorderRadius.circular(17),onTap:()=>_startQuiz(questions:pack.questions),child:Padding(padding:const EdgeInsets.all(14),child:Row(children:[
+          Container(width:42,height:42,alignment:Alignment.center,decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(13)),child:Text(pack.icon,style:const TextStyle(fontSize:21))),
+          const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(s.t(pack.titleKey),style:const TextStyle(fontWeight:FontWeight.w900,fontSize:12)),const SizedBox(height:4),Text(s.t(pack.descriptionKey),style:const TextStyle(color:mindMuted,fontSize:10))])),
+          Text('${pack.questions.length} ' + s.t('questionsShort'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w800)),const SizedBox(width:7),const Icon(Icons.arrow_forward_ios_rounded,size:13,color:mindMuted),
+        ])))))),
+        const SizedBox(height:7),
         const SizedBox(height:25),
         Row(children:[const Expanded(child:Divider(color:Color(0xFF352B4A))),Padding(padding:const EdgeInsets.symmetric(horizontal:12),child:Text(s.t('already'),style:const TextStyle(fontSize:9,letterSpacing:.7,color:mindMuted,fontWeight:FontWeight.w800))),const Expanded(child:Divider(color:Color(0xFF352B4A)))]),
         const SizedBox(height:17),
