@@ -19,8 +19,8 @@ Turn the current stable quiz MVP into a polished social game that earns repeat v
 - Review typography, spacing, contrast, empty states, loading states, and Arabic RTL layout.
 
 ### 2. Retention and content
-- Expand beyond the current 28-question catalogue with editorially distinct packs, not just recycled question combinations.
-- Add a daily streak and a lightweight history of completed challenges, stored locally first.
+- Expanded the original catalogue to 56 unique questions across eight editorially distinct packs; continue adding versioned content rather than recycled combinations.
+- Added an offline daily streak backed by a small local completion history; next add a browsable recent-results history.
 - Add rotating daily/weekly themes and seasonal collections with content versioning.
 - Later, fetch published packs from a backend while retaining a cached offline catalogue.
 - Do not use sensitive questions or present scores as psychological assessments.
