@@ -121,7 +121,7 @@ class HistoryScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(13),
                           ),
                           child: Icon(
-                            score == null ? Icons.outgoing_mail_rounded : Icons.compare_arrows_rounded,
+                            score == null ? Icons.send_rounded : Icons.compare_arrows_rounded,
                             color: mindLilac,
                           ),
                         ),
