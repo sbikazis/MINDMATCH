@@ -1,4 +1,4 @@
-import 'quiz_question.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
 
 class QuizPack {
   const QuizPack({required this.id, required this.titleKey, required this.descriptionKey, required this.icon, required this.questionIds});
