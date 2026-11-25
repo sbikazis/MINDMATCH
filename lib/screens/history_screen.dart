@@ -69,6 +69,7 @@ class HistoryScreen extends StatelessWidget {
                       builder: (_) => ResultScreen(
                         answers: entry.answers,
                         quizQuestions: questions,
+                        saveToHistory: false,
                         incomingChallenge: friendAnswers == null
                             ? null
                             : ChallengeData(answers: friendAnswers, questionIds: entry.questionIds),
