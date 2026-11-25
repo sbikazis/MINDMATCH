@@ -123,7 +123,7 @@ class _ResultScreenState extends State<ResultScreen>{
             final matched=widget.answers[index]==other!.answers[index];
             final localized=localizedQuestion(widget.quizQuestions[index],s.languageCode);
             final myAnswer=localized.options[widget.answers[index]];
-            final friendAnswer=localized.options[other!.answers[index]];
+            final friendAnswer=localized.options[other.answers[index]];
             final statusColor=matched?const Color(0xFF83D9B7):mindGold;
             return Container(
               margin:const EdgeInsets.only(bottom:11),
