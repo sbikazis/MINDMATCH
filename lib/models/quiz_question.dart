@@ -134,6 +134,7 @@ const expandedMindMatchQuestions = <QuizQuestion>[
   QuizQuestion(id:'trustbuild',category:'TRUST',prompt:'What builds trust fastest between two people?',options:['Consistency over time','Honesty when it is difficult','Respecting private things','Showing up when it matters']),
   QuizQuestion(id:'forgiveness',category:'EMOTIONS',prompt:'Someone sincerely regrets hurting you. What do you need first?',options:['Time to process','A clear explanation','Actions that show change','A direct conversation']),
   QuizQuestion(id:'celebration',category:'FRIENDSHIP',prompt:'Your friend achieves something huge. How do you celebrate?',options:['Plan a surprise','Make a heartfelt message','Go out and make a memory','Tell everyone how proud I am']),
+  QuizQuestion(id:'firstimpression',category:'CONNECTION',prompt:'You meet someone new and have 30 seconds. What do you notice first?',options:['How they treat other people','Their sense of humour','The questions they ask','The energy they bring']),
 ];
 
 const expandedQuestionTranslations = <String, Map<String, List<String>>>{
@@ -164,4 +165,5 @@ const expandedQuestionTranslations = <String, Map<String, List<String>>>{
   'trustbuild': {'ar':['الثقة','ما الذي يبني الثقة بسرعة بين شخصين؟','الثبات مع مرور الوقت','الصدق عندما يكون صعباً','احترام الخصوصية','الحضور وقت الحاجة'],'fr':['CONFIANCE','Qu’est-ce qui construit le plus vite la confiance ?','La constance avec le temps','L’honnêteté même difficile','Le respect de la vie privée','Être présent quand il le faut']},
   'forgiveness': {'ar':['المشاعر','شخص نادم بصدق لأنه جرحك. ما الذي تحتاجه أولاً؟','وقتاً لاستيعاب الأمر','تفسيراً واضحاً','أفعالاً تثبت التغيير','حواراً مباشراً'],'fr':['ÉMOTIONS','Quelqu’un regrette sincèrement de t’avoir blessé. De quoi as-tu besoin d’abord ?','De temps pour digérer','D’une explication claire','D’actes qui prouvent le changement','D’une conversation directe']},
   'celebration': {'ar':['الصداقة','حقق صديقك إنجازاً كبيراً. كيف تحتفل معه؟','أخطط لمفاجأة','أكتب له رسالة صادقة','نخرج ونصنع ذكرى','أخبر الجميع كم أنا فخور به'],'fr':['AMITIÉ','Ton ami accomplit quelque chose d’énorme. Comment fêtes-tu ça ?','Je prépare une surprise','J’écris un message sincère','On sort créer un souvenir','Je dis à tout le monde combien je suis fier']},
+  'firstimpression': {'ar':['التواصل','قابلت شخصاً جديداً ولديك 30 ثانية. ما أول ما تلاحظه؟','كيف يعامل الآخرين','حسّه الفكاهي','الأسئلة التي يطرحها','الأجواء التي ينشرها'],'fr':['LIEN','Tu rencontres quelqu’un et tu as 30 secondes. Que remarques-tu d’abord ?','Sa façon de traiter les autres','Son sens de l’humour','Les questions qu’il pose','L’énergie qu’il dégage']},
 };
