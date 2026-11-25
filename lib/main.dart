@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/home_screen.dart';
 import 'services/mindmatch_ads.dart';
 import 'services/mindmatch_retention.dart';
+import 'services/mindmatch_history.dart';
 
 const mindBackground = Color(0xFF090812);
 const mindSurface = Color(0xFF171326);
@@ -18,6 +19,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   unawaited(MindMatchAds.instance.initialize());
   unawaited(MindMatchRetention.instance.load());
+  unawaited(MindMatchHistory.instance.load());
   runApp(const MindMatchApp());
 }
 
