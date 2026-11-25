@@ -16,6 +16,20 @@ void main() {
     }
   });
 
+  test('every question has four choices and Arabic/French translations', () {
+    for (final question in mindMatchQuestions) {
+      expect(question.options, hasLength(4), reason: question.id);
+      expect(localizedQuestion(question, 'ar').prompt, isNot(question.prompt), reason: 'Arabic: ${question.id}');
+      expect(localizedQuestion(question, 'fr').prompt, isNot(question.prompt), reason: 'French: ${question.id}');
+    }
+  });
+
+  test('all questions are discoverable through the themed packs', () {
+    final packedIds = quizPacks.expand((pack) => pack.questionIds).toSet();
+    expect(packedIds, hasLength(56));
+    expect(packedIds, containsAll(mindMatchQuestions.map((question) => question.id)));
+  });
+
   test('daily challenge is stable for a date and contains fourteen unique questions', () {
     final date = DateTime(2026, 11, 24);
     final first = dailyQuestions(date);
