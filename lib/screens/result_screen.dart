@@ -122,12 +122,49 @@ class _ResultScreenState extends State<ResultScreen>{
           ...List.generate(widget.answers.length,(index){
             final matched=widget.answers[index]==other!.answers[index];
             final localized=localizedQuestion(widget.quizQuestions[index],s.languageCode);
-            return Container(margin:const EdgeInsets.only(bottom:9),padding:const EdgeInsets.all(14),decoration:BoxDecoration(color:mindSurface,borderRadius:BorderRadius.circular(16),border:Border.all(color:matched?const Color(0xFF426B60):const Color(0xFF3B304D))),child:Row(children:[
-              Container(width:31,height:31,alignment:Alignment.center,decoration:BoxDecoration(color:matched?const Color(0xFF24463D):mindSurfaceRaised,borderRadius:BorderRadius.circular(10)),child:Text('${index+1}',style:TextStyle(color:matched?const Color(0xFF9CE2C8):mindLilac,fontWeight:FontWeight.w900,fontSize:11))),
-              const SizedBox(width:12),Expanded(child:Text(localized.category,style:const TextStyle(fontWeight:FontWeight.w800,fontSize:11,letterSpacing:.5))),
-              Icon(matched?Icons.check_circle_rounded:Icons.bolt_rounded,color:matched?const Color(0xFF83D9B7):mindGold,size:17),const SizedBox(width:6),
-              Text(matched?s.t('match'):s.t('different'),style:TextStyle(color:matched?const Color(0xFF83D9B7):mindGold,fontSize:9,fontWeight:FontWeight.w900,letterSpacing:.4)),
-            ]));
+            final myAnswer=localized.options[widget.answers[index]];
+            final friendAnswer=localized.options[other.answers[index]];
+            final statusColor=matched?const Color(0xFF83D9B7):mindGold;
+            return Container(
+              margin:const EdgeInsets.only(bottom:11),
+              padding:const EdgeInsets.all(15),
+              decoration:BoxDecoration(
+                color:mindSurface,
+                borderRadius:BorderRadius.circular(18),
+                border:Border.all(color:matched?const Color(0xFF426B60):const Color(0xFF3B304D)),
+              ),
+              child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                Row(children:[
+                  Container(width:29,height:29,alignment:Alignment.center,decoration:BoxDecoration(color:matched?const Color(0xFF24463D):mindSurfaceRaised,borderRadius:BorderRadius.circular(9)),child:Text('${index+1}',style:TextStyle(color:matched?const Color(0xFF9CE2C8):mindLilac,fontWeight:FontWeight.w900,fontSize:10))),
+                  const SizedBox(width:9),
+                  Expanded(child:Text(localized.category,style:const TextStyle(color:mindLilac,fontWeight:FontWeight.w900,fontSize:9,letterSpacing:.8))),
+                  Icon(matched?Icons.check_circle_rounded:Icons.bolt_rounded,color:statusColor,size:17),
+                  const SizedBox(width:5),
+                  Text(matched?s.t('match'):s.t('different'),style:TextStyle(color:statusColor,fontSize:8,fontWeight:FontWeight.w900,letterSpacing:.4)),
+                ]),
+                const SizedBox(height:10),
+                Text(localized.prompt,style:const TextStyle(color:Colors.white,fontSize:12,height:1.4,fontWeight:FontWeight.w700)),
+                const SizedBox(height:10),
+                if(matched)
+                  Container(width:double.infinity,padding:const EdgeInsets.all(11),decoration:BoxDecoration(color:const Color(0xFF1E3B34),borderRadius:BorderRadius.circular(12)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                    Text(s.t('youBoth'),style:const TextStyle(color:Color(0xFF9CE2C8),fontSize:8,fontWeight:FontWeight.w900,letterSpacing:.7)),
+                    const SizedBox(height:4),
+                    Text(myAnswer,style:const TextStyle(color:Colors.white,fontSize:11,height:1.35,fontWeight:FontWeight.w700)),
+                  ]))
+                else
+                  Container(width:double.infinity,padding:const EdgeInsets.all(11),decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(12)),child:Column(children:[
+                    Row(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                      SizedBox(width:88,child:Text(s.t('you'),style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w900))),
+                      Expanded(child:Text(myAnswer,style:const TextStyle(color:Colors.white,fontSize:10,height:1.35))),
+                    ]),
+                    const Padding(padding:EdgeInsets.symmetric(vertical:8),child:Divider(height:1,color:Color(0xFF493B60))),
+                    Row(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                      SizedBox(width:88,child:Text(s.t('friend'),style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w900))),
+                      Expanded(child:Text(friendAnswer,style:const TextStyle(color:Colors.white,fontSize:10,height:1.35))),
+                    ]),
+                  ])),
+              ]),
+            );
           }),
           const SizedBox(height:8),
           SizedBox(height:53,child:OutlinedButton.icon(onPressed:()=>_shareResult(score),icon:const Icon(Icons.ios_share_rounded,size:18),label:Text(s.t('shareScore')),style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(16))))),
