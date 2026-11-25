@@ -6,6 +6,7 @@ import '../models/quiz_catalog.dart';
 import '../main.dart';
 import '../services/challenge_codec.dart';
 import '../services/mindmatch_ads.dart';
+import '../services/mindmatch_retention.dart';
 import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,9 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() { _codeController.dispose(); super.dispose(); }
 
-  void _startQuiz({ChallengeData? challenge, List<QuizQuestion>? questions}) {
+  void _startQuiz({ChallengeData? challenge, List<QuizQuestion>? questions, bool isDaily = false}) {
     Navigator.of(context).push(PageRouteBuilder<void>(
-      pageBuilder: (_, animation, secondaryAnimation) => QuizScreen(incomingChallenge: challenge, questions: questions),
+      pageBuilder: (_, animation, secondaryAnimation) => QuizScreen(incomingChallenge: challenge, questions: questions, isDaily: isDaily),
       transitionsBuilder: (_, animation, secondaryAnimation, child) {
         final curve = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
         return FadeTransition(opacity: curve, child: SlideTransition(position: Tween<Offset>(begin: const Offset(0, .035), end: Offset.zero).animate(curve), child: child));
@@ -109,8 +110,26 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(padding:const EdgeInsets.all(18),decoration:BoxDecoration(borderRadius:BorderRadius.circular(23),gradient:const LinearGradient(colors:[Color(0xFF3B2B5D),Color(0xFF211832)]),border:Border.all(color:const Color(0xFF8A70C0).withOpacity(.65))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
           Row(children:[const Icon(Icons.today_rounded,color:mindGold,size:19),const SizedBox(width:8),Text(s.t('dailyLabel'),style:const TextStyle(color:mindGold,fontSize:10,fontWeight:FontWeight.w900,letterSpacing:1.2)),const Spacer(),Container(padding:const EdgeInsets.symmetric(horizontal:8,vertical:5),decoration:BoxDecoration(color:const Color(0xFF171326).withOpacity(.7),borderRadius:BorderRadius.circular(20)),child:Text(s.t('dailyFresh'),style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w800)))]),
           const SizedBox(height:10),Text(s.t('dailyTitle'),style:const TextStyle(fontSize:20,fontWeight:FontWeight.w900)),const SizedBox(height:5),Text(s.t('dailyDesc'),style:const TextStyle(color:mindMuted,fontSize:11,height:1.5)),
-          const SizedBox(height:14),SizedBox(width:double.infinity,height:48,child:FilledButton.icon(onPressed:()=>_startQuiz(questions:dailyQuestions(DateTime.now())),icon:const Icon(Icons.bolt_rounded,size:18),label:Text(s.t('playDaily'),style:const TextStyle(fontSize:10,fontWeight:FontWeight.w900,letterSpacing:.7)),style:FilledButton.styleFrom(backgroundColor:mindGold,foregroundColor:const Color(0xFF211832),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(14))))),
+          const SizedBox(height:14),SizedBox(width:double.infinity,height:48,child:FilledButton.icon(onPressed:()=>_startQuiz(questions:dailyQuestions(DateTime.now()),isDaily:true),icon:const Icon(Icons.bolt_rounded,size:18),label:Text(s.t('playDaily'),style:const TextStyle(fontSize:10,fontWeight:FontWeight.w900,letterSpacing:.7)),style:FilledButton.styleFrom(backgroundColor:mindGold,foregroundColor:const Color(0xFF211832),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(14))))),
         ])),
+        const SizedBox(height:12),
+        ValueListenableBuilder<RetentionSnapshot>(
+          valueListenable: MindMatchRetention.instance.snapshot,
+          builder: (context, retention, _) => Container(
+            padding: const EdgeInsets.symmetric(horizontal:16,vertical:13),
+            decoration: BoxDecoration(color:mindSurface,borderRadius:BorderRadius.circular(17),border:Border.all(color:const Color(0xFF493B60))),
+            child: Row(children:[
+              const Icon(Icons.local_fire_department_rounded,color:mindGold,size:23),
+              const SizedBox(width:10),
+              Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                Text(s.t('streakTitle'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w900,letterSpacing:1)),
+                const SizedBox(height:3),
+                Text(retention.currentStreak>0?'\${retention.currentStreak} \${s.t('streakDays')}':s.t('streakStart'),style:const TextStyle(color:Colors.white,fontSize:11,fontWeight:FontWeight.w800)),
+              ])),
+              if(retention.completedToday) const Icon(Icons.check_circle_rounded,color:Color(0xFF83D9B7),size:20),
+            ]),
+          ),
+        ),
         const SizedBox(height:24),
         Text(s.t('packsTitle'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:1.3,color:mindLilac)),
         const SizedBox(height:5),Text(s.t('packsDesc'),style:const TextStyle(fontSize:11,color:mindMuted)),
