@@ -3,13 +3,13 @@ import 'package:mindmatch/models/quiz_catalog.dart';
 import 'package:mindmatch/models/quiz_question.dart';
 
 void main() {
-  test('question library contains 28 uniquely identified questions', () {
-    expect(mindMatchQuestions, hasLength(28));
+  test('question library contains 56 uniquely identified questions', () {
+    expect(mindMatchQuestions, hasLength(56));
     expect(mindMatchQuestions.map((question) => question.id).toSet(), hasLength(28));
   });
 
   test('each themed pack resolves to seven valid questions', () {
-    expect(quizPacks, hasLength(4));
+    expect(quizPacks, hasLength(8));
     for (final pack in quizPacks) {
       expect(pack.questions, hasLength(7));
       expect(pack.questions.every((question) => mindMatchQuestions.contains(question)), isTrue);
