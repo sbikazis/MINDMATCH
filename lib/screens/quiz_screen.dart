@@ -5,12 +5,14 @@ import '../main.dart';
 import '../models/quiz_question.dart';
 import '../services/challenge_codec.dart';
 import '../services/mindmatch_ads.dart';
+import '../services/mindmatch_retention.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key,this.incomingChallenge,this.questions});
+  const QuizScreen({super.key,this.incomingChallenge,this.questions,this.isDaily=false});
   final ChallengeData? incomingChallenge;
   final List<QuizQuestion>? questions;
+  final bool isDaily;
   @override
   State<QuizScreen> createState()=>_QuizScreenState();
 }
@@ -32,6 +34,10 @@ class _QuizScreenState extends State<QuizScreen>{
     if(_current<_questions.length-1){setState(()=>_current++);return;}
     await MindMatchAds.instance.showInterstitialBetweenRounds();
     if (!mounted) return;
+    if (widget.isDaily) {
+      await MindMatchRetention.instance.recordDailyCompletion(DateTime.now());
+      if (!mounted) return;
+    }
     Navigator.of(context).pushReplacement(PageRouteBuilder<void>(
       pageBuilder:(_,animation,secondaryAnimation)=>ResultScreen(answers:List<int>.unmodifiable(_answers),quizQuestions:_questions,incomingChallenge:widget.incomingChallenge),
       transitionsBuilder:(_,animation,secondaryAnimation,child)=>FadeTransition(opacity:CurvedAnimation(parent:animation,curve:Curves.easeOut),child:child),

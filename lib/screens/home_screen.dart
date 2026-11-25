@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../l10n/app_strings.dart';
 import '../models/quiz_question.dart';
 import '../models/quiz_catalog.dart';
 import '../main.dart';
 import '../services/challenge_codec.dart';
 import '../services/mindmatch_ads.dart';
+import '../services/mindmatch_retention.dart';
 import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,19 +16,35 @@ class HomeScreen extends StatefulWidget {
 }
 class _HomeScreenState extends State<HomeScreen> {
   final _codeController = TextEditingController();
+  final _joinSectionKey = GlobalKey();
   String? _codeError;
   @override
   void dispose() { _codeController.dispose(); super.dispose(); }
 
-  void _startQuiz({ChallengeData? challenge, List<QuizQuestion>? questions}) {
+  void _startQuiz({ChallengeData? challenge, List<QuizQuestion>? questions, bool isDaily = false}) {
     Navigator.of(context).push(PageRouteBuilder<void>(
-      pageBuilder: (_, animation, secondaryAnimation) => QuizScreen(incomingChallenge: challenge, questions: questions),
+      pageBuilder: (_, animation, secondaryAnimation) => QuizScreen(incomingChallenge: challenge, questions: questions, isDaily: isDaily),
       transitionsBuilder: (_, animation, secondaryAnimation, child) {
         final curve = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
         return FadeTransition(opacity: curve, child: SlideTransition(position: Tween<Offset>(begin: const Offset(0, .035), end: Offset.zero).animate(curve), child: child));
       },
     ));
   }
+  void _scrollToJoin() {
+    final target = _joinSectionKey.currentContext;
+    if (target != null) {
+      Scrollable.ensureVisible(target, duration: const Duration(milliseconds: 450), curve: Curves.easeOutCubic);
+    }
+  }
+
+  Future<void> _pasteChallenge() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final pasted = data?.text?.trim();
+    if (pasted == null || pasted.isEmpty) return;
+    _codeController.text = pasted;
+    if (mounted) _joinChallenge();
+  }
+
   void _joinChallenge() {
     try { final challenge = ChallengeCodec.decode(_codeController.text);
       if (challenge.questionIds.isNotEmpty && challenge.questionIds.any((id) => !mindMatchQuestions.any((question) => question.id == id))) { throw const FormatException('This challenge uses an unknown question set.'); }
@@ -81,31 +99,89 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(width:double.infinity,height:58,child:FilledButton(onPressed:()=>_startQuiz(),style:FilledButton.styleFrom(backgroundColor:mindPurple,foregroundColor:const Color(0xFF130D22),elevation:0,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(18))),child:Text(s.t('start'),style:const TextStyle(fontWeight:FontWeight.w900,letterSpacing:.5,fontSize:12)))),
           ]),
         ),
+        const SizedBox(height:12),
+        SizedBox(width:double.infinity,height:48,child:OutlinedButton.icon(
+          onPressed:_scrollToJoin,
+          icon:const Icon(Icons.group_add_rounded,size:18),
+          label:Text(s.t('join'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:.7)),
+          style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(15))),
+        )),
         const SizedBox(height:18),
         Container(padding:const EdgeInsets.all(18),decoration:BoxDecoration(borderRadius:BorderRadius.circular(23),gradient:const LinearGradient(colors:[Color(0xFF3B2B5D),Color(0xFF211832)]),border:Border.all(color:const Color(0xFF8A70C0).withOpacity(.65))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
           Row(children:[const Icon(Icons.today_rounded,color:mindGold,size:19),const SizedBox(width:8),Text(s.t('dailyLabel'),style:const TextStyle(color:mindGold,fontSize:10,fontWeight:FontWeight.w900,letterSpacing:1.2)),const Spacer(),Container(padding:const EdgeInsets.symmetric(horizontal:8,vertical:5),decoration:BoxDecoration(color:const Color(0xFF171326).withOpacity(.7),borderRadius:BorderRadius.circular(20)),child:Text(s.t('dailyFresh'),style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w800)))]),
           const SizedBox(height:10),Text(s.t('dailyTitle'),style:const TextStyle(fontSize:20,fontWeight:FontWeight.w900)),const SizedBox(height:5),Text(s.t('dailyDesc'),style:const TextStyle(color:mindMuted,fontSize:11,height:1.5)),
-          const SizedBox(height:14),SizedBox(width:double.infinity,height:48,child:FilledButton.icon(onPressed:()=>_startQuiz(questions:dailyQuestions(DateTime.now())),icon:const Icon(Icons.bolt_rounded,size:18),label:Text(s.t('playDaily'),style:const TextStyle(fontSize:10,fontWeight:FontWeight.w900,letterSpacing:.7)),style:FilledButton.styleFrom(backgroundColor:mindGold,foregroundColor:const Color(0xFF211832),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(14))))),
+          const SizedBox(height:14),SizedBox(width:double.infinity,height:48,child:FilledButton.icon(onPressed:()=>_startQuiz(questions:dailyQuestions(DateTime.now()),isDaily:true),icon:const Icon(Icons.bolt_rounded,size:18),label:Text(s.t('playDaily'),style:const TextStyle(fontSize:10,fontWeight:FontWeight.w900,letterSpacing:.7)),style:FilledButton.styleFrom(backgroundColor:mindGold,foregroundColor:const Color(0xFF211832),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(14))))),
         ])),
+        const SizedBox(height:12),
+        ValueListenableBuilder<RetentionSnapshot>(
+          valueListenable: MindMatchRetention.instance.snapshot,
+          builder: (context, retention, _) => Container(
+            padding: const EdgeInsets.symmetric(horizontal:16,vertical:13),
+            decoration: BoxDecoration(color:mindSurface,borderRadius:BorderRadius.circular(17),border:Border.all(color:const Color(0xFF493B60))),
+            child: Row(children:[
+              const Icon(Icons.local_fire_department_rounded,color:mindGold,size:23),
+              const SizedBox(width:10),
+              Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                Text(s.t('streakTitle'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w900,letterSpacing:1)),
+                const SizedBox(height:3),
+                Text(retention.currentStreak>0?'${retention.currentStreak} ${s.t('streakDays')}':s.t('streakStart'),style:const TextStyle(color:Colors.white,fontSize:11,fontWeight:FontWeight.w800)),
+              ])),
+              if(retention.completedToday) const Icon(Icons.check_circle_rounded,color:Color(0xFF83D9B7),size:20),
+            ]),
+          ),
+        ),
         const SizedBox(height:24),
         Text(s.t('packsTitle'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:1.3,color:mindLilac)),
         const SizedBox(height:5),Text(s.t('packsDesc'),style:const TextStyle(fontSize:11,color:mindMuted)),
+        const SizedBox(height:5),Text(s.t('libraryCount'),style:const TextStyle(fontSize:9,color:mindLilac,fontWeight:FontWeight.w900,letterSpacing:.8)),
         const SizedBox(height:12),
-        ...quizPacks.map((pack)=>Padding(padding:const EdgeInsets.only(bottom:9),child:Material(color:mindSurface,borderRadius:BorderRadius.circular(17),child:InkWell(borderRadius:BorderRadius.circular(17),onTap:()=>_startQuiz(questions:pack.questions),child:Padding(padding:const EdgeInsets.all(14),child:Row(children:[
-          Container(width:42,height:42,alignment:Alignment.center,decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(13)),child:Text(pack.icon,style:const TextStyle(fontSize:21))),
-          const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(s.t(pack.titleKey),style:const TextStyle(fontWeight:FontWeight.w900,fontSize:12)),const SizedBox(height:4),Text(s.t(pack.descriptionKey),style:const TextStyle(color:mindMuted,fontSize:10))])),
-          Text('${pack.questions.length} ' + s.t('questionsShort'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w800)),const SizedBox(width:7),const Icon(Icons.arrow_forward_ios_rounded,size:13,color:mindMuted),
-        ])))))),
+        GridView.builder(
+          shrinkWrap:true,
+          physics:const NeverScrollableScrollPhysics(),
+          gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount:MediaQuery.sizeOf(context).width<390?1:2,
+            crossAxisSpacing:10,
+            mainAxisSpacing:10,
+            mainAxisExtent:126,
+          ),
+          itemCount:quizPacks.length,
+          itemBuilder:(context,index){
+            final pack=quizPacks[index];
+            return Material(
+              color:mindSurface,
+              borderRadius:BorderRadius.circular(19),
+              child:InkWell(
+                borderRadius:BorderRadius.circular(19),
+                onTap:()=>_startQuiz(questions:pack.questions),
+                child:Padding(
+                  padding:const EdgeInsets.all(14),
+                  child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                    Row(children:[
+                      Container(width:39,height:39,alignment:Alignment.center,decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(13)),child:Text(pack.icon,style:const TextStyle(fontSize:20))),
+                      const Spacer(),
+                      const Icon(Icons.arrow_outward_rounded,size:15,color:mindMuted),
+                    ]),
+                    const SizedBox(height:9),
+                    Text(s.t(pack.titleKey),maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w900,fontSize:11)),
+                    const SizedBox(height:4),
+                    Expanded(child:Text(s.t(pack.descriptionKey),maxLines:2,overflow:TextOverflow.ellipsis,style:const TextStyle(color:mindMuted,fontSize:9,height:1.3))),
+                    Text('${pack.questions.length} ${s.t('questionsShort')}',style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w900)),
+                  ]),
+                ),
+              ),
+            );
+          },
+        ),
         const SizedBox(height:7),
         const MindMatchNativeAd(),
         const SizedBox(height:25),
         Row(children:[const Expanded(child:Divider(color:Color(0xFF352B4A))),Padding(padding:const EdgeInsets.symmetric(horizontal:12),child:Text(s.t('already'),style:const TextStyle(fontSize:9,letterSpacing:.7,color:mindMuted,fontWeight:FontWeight.w800))),const Expanded(child:Divider(color:Color(0xFF352B4A)))]),
         const SizedBox(height:17),
-        Container(padding:const EdgeInsets.all(17),decoration:BoxDecoration(color:mindSurface.withOpacity(.92),borderRadius:BorderRadius.circular(23),border:Border.all(color:const Color(0xFF352B4A))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+        Container(key:_joinSectionKey,padding:const EdgeInsets.all(17),decoration:BoxDecoration(color:mindSurface.withOpacity(.92),borderRadius:BorderRadius.circular(23),border:Border.all(color:const Color(0xFF352B4A))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
           Row(children:[const Icon(Icons.vpn_key_rounded,color:mindLilac,size:17),const SizedBox(width:8),Text(s.t('join'),style:const TextStyle(fontWeight:FontWeight.w900,letterSpacing:1,fontSize:11))]),
           const SizedBox(height:7),Text(s.t('paste'),style:const TextStyle(color:mindMuted,fontSize:12)),
           const SizedBox(height:14),
-          TextField(controller:_codeController,textCapitalization:TextCapitalization.characters,autocorrect:false,decoration:InputDecoration(hintText:s.t('codeHint'),prefixIcon:const Icon(Icons.qr_code_2_rounded,color:mindLilac),errorText:_codeError),onChanged:(_){if(_codeError!=null)setState(()=>_codeError=null);}),
+          TextField(controller:_codeController,textCapitalization:TextCapitalization.characters,autocorrect:false,decoration:InputDecoration(hintText:s.t('codeHint'),prefixIcon:const Icon(Icons.qr_code_2_rounded,color:mindLilac),suffixIcon:IconButton(tooltip:'Paste challenge code',onPressed:_pasteChallenge,icon:const Icon(Icons.content_paste_rounded,color:mindLilac)),errorText:_codeError),onChanged:(_){if(_codeError!=null)setState(()=>_codeError=null);}),
           const SizedBox(height:11),
           SizedBox(width:double.infinity,height:49,child:OutlinedButton(onPressed:_joinChallenge,style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(15))),child:Text(s.t('enter'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:.8)))),
         ])),

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B091B">
+<title>Join a MINDMATCH challenge</title>
+<style>
+:root{color-scheme:dark;--bg:#0B091B;--panel:#17132b;--pink:#E83FA5;--blue:#3B9EF2;--violet:#8E55E8;--text:#f7f3ff;--muted:#c5bdd8}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,#30205b 0,transparent 52%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+main{width:min(100%,520px);padding:30px;border:1px solid #51416f;border-radius:28px;background:linear-gradient(145deg,#211832,#14111f);box-shadow:0 24px 80px #0008}
+.mark{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,var(--pink),var(--violet),var(--blue));font-size:25px;font-weight:900}
+h1{font-size:clamp(2rem,8vw,3rem);line-height:1.05;letter-spacing:-.05em;margin:24px 0 10px}
+p{color:var(--muted)}.code{padding:17px 14px;border:1px solid #5b477f;border-radius:15px;background:#0d0a18;text-align:center;font-weight:850;letter-spacing:.06em;overflow-wrap:anywhere}
+button,a.action{display:block;width:100%;margin-top:12px;padding:14px 18px;border:0;border-radius:14px;background:#9B7BFF;color:#160f25;text-align:center;text-decoration:none;font:inherit;font-weight:850;cursor:pointer}
+.secondary{background:#302342!important;color:#eee5ff!important;border:1px solid #66518d!important}
+.note{font-size:.9rem;margin-top:20px}.status{min-height:1.5em;color:#a7e4ca;font-size:.9rem}
+</style>
+</head>
+<body><main>
+<div class="mark" aria-label="MINDMATCH">M</div>
+<h1>Your friend challenged you.</h1>
+<p>Join MINDMATCH, answer the same questions, and discover how closely your minds match.</p>
+<div id="challenge" class="code">Loading challenge…</div>
+<button id="copy" type="button">Copy challenge code</button>
+<a class="action secondary" href="./index.html">Learn about MINDMATCH</a>
+<p class="note">New to MINDMATCH? Install the app from Google Play when it becomes available. Open the app, choose “Join a friend”, paste this code, and answer the same questions. Your match appears when you finish.</p>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</main>
+<script>
+const params = new URLSearchParams(location.search);
+const code = params.get('code') || '';
+const codeElement = document.getElementById('challenge');
+const copyButton = document.getElementById('copy');
+const statusElement = document.getElementById('status');
+if (/^MM1-[A-Za-z0-9_-]{10,1000}$/.test(code)) {
+  codeElement.textContent = code;
+  copyButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      statusElement.textContent = 'Copied. Open MINDMATCH and choose “Join a friend”.';
+    } catch (_) {
+      statusElement.textContent = 'Select and copy the code above, then paste it in MINDMATCH.';
+    }
+  });
+} else {
+  codeElement.textContent = 'No valid challenge code was found.';
+  copyButton.disabled = true;
+}
+</script>
+</body></html>
