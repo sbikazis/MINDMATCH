@@ -135,11 +135,43 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height:5),Text(s.t('packsDesc'),style:const TextStyle(fontSize:11,color:mindMuted)),
         const SizedBox(height:5),Text(s.t('libraryCount'),style:const TextStyle(fontSize:9,color:mindLilac,fontWeight:FontWeight.w900,letterSpacing:.8)),
         const SizedBox(height:12),
-        ...quizPacks.map((pack)=>Padding(padding:const EdgeInsets.only(bottom:9),child:Material(color:mindSurface,borderRadius:BorderRadius.circular(17),child:InkWell(borderRadius:BorderRadius.circular(17),onTap:()=>_startQuiz(questions:pack.questions),child:Padding(padding:const EdgeInsets.all(14),child:Row(children:[
-          Container(width:42,height:42,alignment:Alignment.center,decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(13)),child:Text(pack.icon,style:const TextStyle(fontSize:21))),
-          const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(s.t(pack.titleKey),style:const TextStyle(fontWeight:FontWeight.w900,fontSize:12)),const SizedBox(height:4),Text(s.t(pack.descriptionKey),style:const TextStyle(color:mindMuted,fontSize:10))])),
-          Text('${pack.questions.length} ' + s.t('questionsShort'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w800)),const SizedBox(width:7),const Icon(Icons.arrow_forward_ios_rounded,size:13,color:mindMuted),
-        ])))))),
+        GridView.builder(
+          shrinkWrap:true,
+          physics:const NeverScrollableScrollPhysics(),
+          gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount:MediaQuery.sizeOf(context).width<390?1:2,
+            crossAxisSpacing:10,
+            mainAxisSpacing:10,
+            mainAxisExtent:126,
+          ),
+          itemCount:quizPacks.length,
+          itemBuilder:(context,index){
+            final pack=quizPacks[index];
+            return Material(
+              color:mindSurface,
+              borderRadius:BorderRadius.circular(19),
+              child:InkWell(
+                borderRadius:BorderRadius.circular(19),
+                onTap:()=>_startQuiz(questions:pack.questions),
+                child:Padding(
+                  padding:const EdgeInsets.all(14),
+                  child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                    Row(children:[
+                      Container(width:39,height:39,alignment:Alignment.center,decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(13)),child:Text(pack.icon,style:const TextStyle(fontSize:20))),
+                      const Spacer(),
+                      const Icon(Icons.arrow_outward_rounded,size:15,color:mindMuted),
+                    ]),
+                    const SizedBox(height:9),
+                    Text(s.t(pack.titleKey),maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w900,fontSize:11)),
+                    const SizedBox(height:4),
+                    Expanded(child:Text(s.t(pack.descriptionKey),maxLines:2,overflow:TextOverflow.ellipsis,style:const TextStyle(color:mindMuted,fontSize:9,height:1.3))),
+                    Text('${pack.questions.length} ${s.t('questionsShort')}',style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w900)),
+                  ]),
+                ),
+              ),
+            );
+          },
+        ),
         const SizedBox(height:7),
         const MindMatchNativeAd(),
         const SizedBox(height:25),
