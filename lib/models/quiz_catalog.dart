@@ -16,6 +16,10 @@ const quizPacks = <QuizPack>[
   QuizPack(id:'deep',titleKey:'packDeep',descriptionKey:'packDeepDesc',icon:'🌙',questionIds:['mirror','rewind','memory2','future','fear','truth','secretwish']),
   QuizPack(id:'chaos',titleKey:'packChaos',descriptionKey:'packChaosDesc',icon:'⚡',questionIds:['mystery','plot','thoughts','midnight','power','risk','risk2']),
   QuizPack(id:'social',titleKey:'packSocial',descriptionKey:'packSocialDesc',icon:'🎭',questionIds:['socialbattery','jealousy','lead','argument','creative','weekend','time']),
+  QuizPack(id:'lifestyle',titleKey:'packLifestyle',descriptionKey:'packLifestyleDesc',icon:'🎧',questionIds:['roadtrip','foodmood','playlist','gift','grouptrip','textstyle','weekendplan']),
+  QuizPack(id:'ambition',titleKey:'packAmbition',descriptionKey:'packAmbitionDesc',icon:'🚀',questionIds:['dreamjob','secretproject','challenge','reset','inspiration','proudmoment','learning']),
+  QuizPack(id:'imagination',titleKey:'packImagination',descriptionKey:'packImaginationDesc',icon:'🪐',questionIds:['timeportal','alien','detective','impossible','gameworld','treasure','mystery']),
+  QuizPack(id:'connection',titleKey:'packConnection',descriptionKey:'packConnectionDesc',icon:'💜',questionIds:['conflictrepair','boundaries','supportstyle','appreciation','trustbuild','forgiveness','celebration']),
 ];
 
 List<QuizQuestion> dailyQuestions(DateTime date) {
