@@ -7,12 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import '../l10n/app_strings.dart';
-import '../main.dart';
-import '../models/quiz_question.dart';
-import '../services/challenge_codec.dart';
-import '../services/mindmatch_ads.dart';
-import '../services/mindmatch_history.dart';
+import 'package:mindmatch/shared/l10n/app_strings.dart';
+import 'package:mindmatch/core/theme/mindmatch_theme.dart';
+import 'package:mindmatch/app/app_locale.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
+import 'package:mindmatch/features/challenges/data/challenge_codec.dart';
+import 'package:mindmatch/features/ads/data/mindmatch_ads.dart';
+import 'package:mindmatch/features/history/data/mindmatch_history.dart';
 
 class ResultScreen extends StatefulWidget{
   const ResultScreen({super.key,required this.answers,required this.quizQuestions,this.incomingChallenge,this.saveToHistory=true});

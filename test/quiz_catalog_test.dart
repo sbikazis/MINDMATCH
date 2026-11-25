@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mindmatch/models/quiz_catalog.dart';
-import 'package:mindmatch/models/quiz_question.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_catalog.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
 
 void main() {
   test('question library contains 56 uniquely identified questions', () {

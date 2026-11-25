@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mindmatch/services/mindmatch_retention.dart';
+import 'package:mindmatch/features/daily/data/mindmatch_retention.dart';
 
 void main() {
   test('daily streak counts consecutive completed calendar days', () {
