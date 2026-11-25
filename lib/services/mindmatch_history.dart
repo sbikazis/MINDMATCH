@@ -134,6 +134,20 @@ class MindMatchHistory {
     await _writeQueue;
   }
 
+  Future<void> clear() async {
+    await load();
+    entries.value = <QuizHistoryEntry>[];
+    _writeQueue = _writeQueue.then((_) async {
+      try {
+        final file = await _file();
+        if (await file.exists()) await file.delete();
+      } catch (_) {
+        // A failed deletion must not affect the current quiz session.
+      }
+    });
+    await _writeQueue;
+  }
+
   Future<void> _persist() async {
     try {
       final file = await _file();
