@@ -7,6 +7,8 @@ import '../main.dart';
 import '../services/challenge_codec.dart';
 import '../services/mindmatch_ads.dart';
 import '../services/mindmatch_retention.dart';
+import '../services/mindmatch_history.dart';
+import 'history_screen.dart';
 import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -128,6 +130,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ])),
               if(retention.completedToday) const Icon(Icons.check_circle_rounded,color:Color(0xFF83D9B7),size:20),
             ]),
+          ),
+        ),
+        const SizedBox(height:12),
+        ValueListenableBuilder<List<QuizHistoryEntry>>(
+          valueListenable: MindMatchHistory.instance.entries,
+          builder: (context, entries, _) => Material(
+            color: mindSurface,
+            borderRadius: BorderRadius.circular(17),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(17),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const HistoryScreen())),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal:15,vertical:13),
+                child: Row(children:[
+                  const Icon(Icons.auto_stories_rounded,color:mindLilac,size:21),
+                  const SizedBox(width:10),
+                  Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+                    Text(s.t('historyTitle'),style:const TextStyle(fontSize:10,fontWeight:FontWeight.w900)),
+                    const SizedBox(height:3),
+                    Text(entries.isEmpty?s.t('historyEmpty'):s.t('historySubtitle'),maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:mindMuted,fontSize:9)),
+                  ])),
+                  if(entries.isNotEmpty) Container(
+                    padding:const EdgeInsets.symmetric(horizontal:8,vertical:5),
+                    decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(20)),
+                    child:Text('${entries.length}',style:const TextStyle(color:mindGold,fontSize:10,fontWeight:FontWeight.w900)),
+                  ),
+                  const SizedBox(width:5),
+                  const Icon(Icons.chevron_right_rounded,color:mindMuted),
+                ]),
+              ),
+            ),
           ),
         ),
         const SizedBox(height:24),

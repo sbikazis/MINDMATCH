@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -11,18 +12,31 @@ import '../main.dart';
 import '../models/quiz_question.dart';
 import '../services/challenge_codec.dart';
 import '../services/mindmatch_ads.dart';
+import '../services/mindmatch_history.dart';
 
 class ResultScreen extends StatefulWidget{
-  const ResultScreen({super.key,required this.answers,required this.quizQuestions,this.incomingChallenge});
+  const ResultScreen({super.key,required this.answers,required this.quizQuestions,this.incomingChallenge,this.saveToHistory=true});
   final List<int> answers;
   final List<QuizQuestion> quizQuestions;
   final ChallengeData? incomingChallenge;
+  final bool saveToHistory;
   @override
   State<ResultScreen> createState()=>_ResultScreenState();
 }
 class _ResultScreenState extends State<ResultScreen>{
   final GlobalKey _resultCardKey = GlobalKey();
   bool _copied=false;
+  @override
+  void initState(){
+    super.initState();
+    if(widget.saveToHistory){
+      unawaited(MindMatchHistory.instance.record(
+        answers: widget.answers,
+        questionIds: widget.quizQuestions.map((question)=>question.id).toList(growable:false),
+        friendAnswers: widget.incomingChallenge?.answers,
+      ));
+    }
+  }
   String get _challengeCode=>ChallengeCodec.encode(widget.answers,questionIds:widget.quizQuestions.map((question)=>question.id).toList(growable:false));
   Future<void> _copyChallenge()async{
     await Clipboard.setData(ClipboardData(text:_challengeCode));
