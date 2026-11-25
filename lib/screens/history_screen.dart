@@ -15,6 +15,38 @@ class HistoryScreen extends StatelessWidget {
     final strings = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          ValueListenableBuilder<List<QuizHistoryEntry>>(
+            valueListenable: MindMatchHistory.instance.entries,
+            builder: (context, entries, _) => entries.isEmpty
+                ? const SizedBox.shrink()
+                : IconButton(
+                    tooltip: strings.t('historyClear'),
+                    icon: const Icon(Icons.delete_outline_rounded),
+                    onPressed: () async {
+                      final confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (dialogContext) => AlertDialog(
+                          backgroundColor: mindSurfaceRaised,
+                          title: Text(strings.t('historyClear')),
+                          content: Text(strings.t('historyClearConfirm')),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(dialogContext, false),
+                              child: Text(strings.t('cancel')),
+                            ),
+                            FilledButton(
+                              onPressed: () => Navigator.pop(dialogContext, true),
+                              child: Text(strings.t('historyClear')),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (confirmed == true) await MindMatchHistory.instance.clear();
+                    },
+                  ),
+          ),
+        ],
         title: Text(
           strings.t('historyTitle'),
           style: const TextStyle(fontSize: 11, letterSpacing: 1.5, fontWeight: FontWeight.w900),
