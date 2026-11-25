@@ -33,7 +33,19 @@ class _ResultScreenState extends State<ResultScreen>{
   }
   Future<void> _shareChallenge()async{
     final s=AppStrings.of(context);
-    await Share.share('${s.t('start')}\nMINDMATCH — ${s.t('heroBody')}\n\n${s.t('invite')}:\n$_challengeCode',subject:'MINDMATCH challenge');
+    final inviteUrl = Uri.https(
+      'sbikazis.github.io',
+      '/MINDMATCH/challenge.html',
+      {'code': _challengeCode},
+    );
+    await Share.share(
+      '${s.t('heroTitle').replaceAll('\n', ' ')}\n'
+      'MINDMATCH — ${s.t('heroBody')}\n\n'
+      '${s.t('invite')}:\n$_challengeCode\n\n'
+      'Open the invitation: $inviteUrl\n'
+      'New here? Install MINDMATCH, choose “Join a friend”, and paste the code.',
+      subject: 'MINDMATCH — a friend challenged you',
+    );
   }
   Future<void> _shareResult(int score) async {
     final s = AppStrings.of(context);
