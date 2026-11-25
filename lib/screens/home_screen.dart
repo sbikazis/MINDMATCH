@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../l10n/app_strings.dart';
 import '../models/quiz_question.dart';
 import '../models/quiz_catalog.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 class _HomeScreenState extends State<HomeScreen> {
   final _codeController = TextEditingController();
+  final _joinSectionKey = GlobalKey();
   String? _codeError;
   @override
   void dispose() { _codeController.dispose(); super.dispose(); }
@@ -27,6 +29,21 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     ));
   }
+  void _scrollToJoin() {
+    final target = _joinSectionKey.currentContext;
+    if (target != null) {
+      Scrollable.ensureVisible(target, duration: const Duration(milliseconds: 450), curve: Curves.easeOutCubic);
+    }
+  }
+
+  Future<void> _pasteChallenge() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final pasted = data?.text?.trim();
+    if (pasted == null || pasted.isEmpty) return;
+    _codeController.text = pasted;
+    if (mounted) _joinChallenge();
+  }
+
   void _joinChallenge() {
     try { final challenge = ChallengeCodec.decode(_codeController.text);
       if (challenge.questionIds.isNotEmpty && challenge.questionIds.any((id) => !mindMatchQuestions.any((question) => question.id == id))) { throw const FormatException('This challenge uses an unknown question set.'); }
@@ -81,6 +98,13 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(width:double.infinity,height:58,child:FilledButton(onPressed:()=>_startQuiz(),style:FilledButton.styleFrom(backgroundColor:mindPurple,foregroundColor:const Color(0xFF130D22),elevation:0,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(18))),child:Text(s.t('start'),style:const TextStyle(fontWeight:FontWeight.w900,letterSpacing:.5,fontSize:12)))),
           ]),
         ),
+        const SizedBox(height:12),
+        SizedBox(width:double.infinity,height:48,child:OutlinedButton.icon(
+          onPressed:_scrollToJoin,
+          icon:const Icon(Icons.group_add_rounded,size:18),
+          label:Text(s.t('join'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:.7)),
+          style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(15))),
+        )),
         const SizedBox(height:18),
         Container(padding:const EdgeInsets.all(18),decoration:BoxDecoration(borderRadius:BorderRadius.circular(23),gradient:const LinearGradient(colors:[Color(0xFF3B2B5D),Color(0xFF211832)]),border:Border.all(color:const Color(0xFF8A70C0).withOpacity(.65))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
           Row(children:[const Icon(Icons.today_rounded,color:mindGold,size:19),const SizedBox(width:8),Text(s.t('dailyLabel'),style:const TextStyle(color:mindGold,fontSize:10,fontWeight:FontWeight.w900,letterSpacing:1.2)),const Spacer(),Container(padding:const EdgeInsets.symmetric(horizontal:8,vertical:5),decoration:BoxDecoration(color:const Color(0xFF171326).withOpacity(.7),borderRadius:BorderRadius.circular(20)),child:Text(s.t('dailyFresh'),style:const TextStyle(color:mindLilac,fontSize:8,fontWeight:FontWeight.w800)))]),
@@ -101,11 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height:25),
         Row(children:[const Expanded(child:Divider(color:Color(0xFF352B4A))),Padding(padding:const EdgeInsets.symmetric(horizontal:12),child:Text(s.t('already'),style:const TextStyle(fontSize:9,letterSpacing:.7,color:mindMuted,fontWeight:FontWeight.w800))),const Expanded(child:Divider(color:Color(0xFF352B4A)))]),
         const SizedBox(height:17),
-        Container(padding:const EdgeInsets.all(17),decoration:BoxDecoration(color:mindSurface.withOpacity(.92),borderRadius:BorderRadius.circular(23),border:Border.all(color:const Color(0xFF352B4A))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+        Container(key:_joinSectionKey,padding:const EdgeInsets.all(17),decoration:BoxDecoration(color:mindSurface.withOpacity(.92),borderRadius:BorderRadius.circular(23),border:Border.all(color:const Color(0xFF352B4A))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
           Row(children:[const Icon(Icons.vpn_key_rounded,color:mindLilac,size:17),const SizedBox(width:8),Text(s.t('join'),style:const TextStyle(fontWeight:FontWeight.w900,letterSpacing:1,fontSize:11))]),
           const SizedBox(height:7),Text(s.t('paste'),style:const TextStyle(color:mindMuted,fontSize:12)),
           const SizedBox(height:14),
-          TextField(controller:_codeController,textCapitalization:TextCapitalization.characters,autocorrect:false,decoration:InputDecoration(hintText:s.t('codeHint'),prefixIcon:const Icon(Icons.qr_code_2_rounded,color:mindLilac),errorText:_codeError),onChanged:(_){if(_codeError!=null)setState(()=>_codeError=null);}),
+          TextField(controller:_codeController,textCapitalization:TextCapitalization.characters,autocorrect:false,decoration:InputDecoration(hintText:s.t('codeHint'),prefixIcon:const Icon(Icons.qr_code_2_rounded,color:mindLilac),suffixIcon:IconButton(tooltip:'Paste challenge code',onPressed:_pasteChallenge,icon:const Icon(Icons.content_paste_rounded,color:mindLilac)),errorText:_codeError),onChanged:(_){if(_codeError!=null)setState(()=>_codeError=null);}),
           const SizedBox(height:11),
           SizedBox(width:double.infinity,height:49,child:OutlinedButton(onPressed:_joinChallenge,style:OutlinedButton.styleFrom(foregroundColor:mindLilac,side:const BorderSide(color:Color(0xFF66518D)),shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(15))),child:Text(s.t('enter'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:.8)))),
         ])),
