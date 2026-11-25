@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
                 Text(s.t('streakTitle'),style:const TextStyle(color:mindLilac,fontSize:9,fontWeight:FontWeight.w900,letterSpacing:1)),
                 const SizedBox(height:3),
-                Text(retention.currentStreak>0?'\${retention.currentStreak} \${s.t('streakDays')}':s.t('streakStart'),style:const TextStyle(color:Colors.white,fontSize:11,fontWeight:FontWeight.w800)),
+                Text(retention.currentStreak>0?'${retention.currentStreak} ${s.t('streakDays')}':s.t('streakStart'),style:const TextStyle(color:Colors.white,fontSize:11,fontWeight:FontWeight.w800)),
               ])),
               if(retention.completedToday) const Icon(Icons.check_circle_rounded,color:Color(0xFF83D9B7),size:20),
             ]),
@@ -133,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height:24),
         Text(s.t('packsTitle'),style:const TextStyle(fontSize:11,fontWeight:FontWeight.w900,letterSpacing:1.3,color:mindLilac)),
         const SizedBox(height:5),Text(s.t('packsDesc'),style:const TextStyle(fontSize:11,color:mindMuted)),
+        const SizedBox(height:5),Text(s.t('libraryCount'),style:const TextStyle(fontSize:9,color:mindLilac,fontWeight:FontWeight.w900,letterSpacing:.8)),
         const SizedBox(height:12),
         ...quizPacks.map((pack)=>Padding(padding:const EdgeInsets.only(bottom:9),child:Material(color:mindSurface,borderRadius:BorderRadius.circular(17),child:InkWell(borderRadius:BorderRadius.circular(17),onTap:()=>_startQuiz(questions:pack.questions),child:Padding(padding:const EdgeInsets.all(14),child:Row(children:[
           Container(width:42,height:42,alignment:Alignment.center,decoration:BoxDecoration(color:mindSurfaceRaised,borderRadius:BorderRadius.circular(13)),child:Text(pack.icon,style:const TextStyle(fontSize:21))),
