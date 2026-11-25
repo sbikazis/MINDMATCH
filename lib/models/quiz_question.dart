@@ -104,7 +104,6 @@ const _translations = <String, Map<String, List<String>>>{
 };
 
 
-import 'quiz_question.dart';
 
 /// Original second-season question set. Keep IDs stable: challenge codes store them.
 const expandedMindMatchQuestions = <QuizQuestion>[
