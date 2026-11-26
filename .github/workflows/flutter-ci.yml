@@ -2,7 +2,7 @@ name: Flutter CI
 
 on:
   push:
-    branches: [main, "feature/**"]
+    branches: [main, "feature/**", "fix/**"]
   pull_request:
     branches: [main]
 
@@ -31,17 +31,37 @@ jobs:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REF" = "refs/heads/main" ]; then
             : "${ANDROID_KEYSTORE_BASE64:?Missing ANDROID_KEYSTORE_BASE64 repository secret}"
             : "${ANDROID_KEYSTORE_PASSWORD:?Missing ANDROID_KEYSTORE_PASSWORD repository secret}"
             : "${ANDROID_KEY_ALIAS:?Missing ANDROID_KEY_ALIAS repository secret}"
-            : "${ANDROID_KEY_PASSWORD:?Missing ANDROID_KEY_PASSWORD repository secret}"
-            export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/mindmatch-upload.jks"
+
+            export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/mindmatch-upload.p12"
             printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_PATH"
-            echo "ANDROID_KEYSTORE_PATH=$ANDROID_KEYSTORE_PATH" >> "$GITHUB_ENV"
-            echo "Production Android signing keystore prepared."
+
+            # This upload keystore is PKCS12. PKCS12 uses the store password
+            # for the private-key entry too, so use one verified password.
+            keytool -list -v -storetype PKCS12 \
+              -keystore "$ANDROID_KEYSTORE_PATH" \
+              -storepass "$ANDROID_KEYSTORE_PASSWORD" \
+              -alias "$ANDROID_KEY_ALIAS" >/dev/null
+
+            keytool -certreq -storetype PKCS12 \
+              -keystore "$ANDROID_KEYSTORE_PATH" \
+              -storepass "$ANDROID_KEYSTORE_PASSWORD" \
+              -keypass "$ANDROID_KEYSTORE_PASSWORD" \
+              -alias "$ANDROID_KEY_ALIAS" \
+              -file "$RUNNER_TEMP/mindmatch-signing-check.csr" >/dev/null
+            rm -f "$RUNNER_TEMP/mindmatch-signing-check.csr"
+
+            # Gradle reads this environment variable from build.gradle.kts.
+            export ANDROID_KEY_PASSWORD="$ANDROID_KEYSTORE_PASSWORD"
+            {
+              echo "ANDROID_KEYSTORE_PATH=$ANDROID_KEYSTORE_PATH"
+              echo "ANDROID_KEY_PASSWORD=$ANDROID_KEYSTORE_PASSWORD"
+            } >> "$GITHUB_ENV"
+            echo "PKCS12 store and private-key password verified."
           else
             echo "Non-main validation build: using debug signing; production secrets are not accessed."
           fi
