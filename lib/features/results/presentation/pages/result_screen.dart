@@ -9,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:mindmatch/shared/l10n/app_strings.dart';
 import 'package:mindmatch/core/theme/mindmatch_theme.dart';
-import 'package:mindmatch/app/app_locale.dart';
 import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
 import 'package:mindmatch/features/challenges/data/challenge_codec.dart';
 import 'package:mindmatch/features/ads/data/mindmatch_ads.dart';
