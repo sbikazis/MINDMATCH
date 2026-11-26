@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mindmatch/services/challenge_codec.dart';
+import 'package:mindmatch/features/challenges/data/challenge_codec.dart';
 
 void main() {
   group('ChallengeCodec', () {

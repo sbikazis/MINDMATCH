@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../l10n/app_strings.dart';
-import '../main.dart';
-import '../models/quiz_question.dart';
-import '../services/challenge_codec.dart';
-import '../services/mindmatch_ads.dart';
-import '../services/mindmatch_retention.dart';
-import 'result_screen.dart';
+import 'package:mindmatch/shared/l10n/app_strings.dart';
+import 'package:mindmatch/core/theme/mindmatch_theme.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
+import 'package:mindmatch/features/challenges/data/challenge_codec.dart';
+import 'package:mindmatch/features/ads/data/mindmatch_ads.dart';
+import 'package:mindmatch/features/daily/data/mindmatch_retention.dart';
+import 'package:mindmatch/features/results/presentation/pages/result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key,this.incomingChallenge,this.questions,this.isDaily=false});

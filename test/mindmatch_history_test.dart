@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mindmatch/services/mindmatch_history.dart';
+import 'package:mindmatch/features/history/data/mindmatch_history.dart';
 
 void main() {
   test('history entry preserves answers and question identifiers', () {

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../l10n/app_strings.dart';
-import '../models/quiz_question.dart';
-import '../models/quiz_catalog.dart';
-import '../main.dart';
-import '../services/challenge_codec.dart';
-import '../services/mindmatch_ads.dart';
-import '../services/mindmatch_retention.dart';
-import '../services/mindmatch_history.dart';
-import 'history_screen.dart';
-import 'quiz_screen.dart';
+import 'package:mindmatch/shared/l10n/app_strings.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_catalog.dart';
+import 'package:mindmatch/core/theme/mindmatch_theme.dart';
+import 'package:mindmatch/app/app_locale.dart';
+import 'package:mindmatch/features/challenges/data/challenge_codec.dart';
+import 'package:mindmatch/features/ads/data/mindmatch_ads.dart';
+import 'package:mindmatch/features/daily/data/mindmatch_retention.dart';
+import 'package:mindmatch/features/history/data/mindmatch_history.dart';
+import 'package:mindmatch/features/history/presentation/pages/history_screen.dart';
+import 'package:mindmatch/features/quiz/presentation/pages/quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

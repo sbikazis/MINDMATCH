@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../l10n/app_strings.dart';
-import '../main.dart';
-import '../models/quiz_question.dart';
-import '../services/challenge_codec.dart';
-import '../services/mindmatch_history.dart';
-import 'result_screen.dart';
+import 'package:mindmatch/shared/l10n/app_strings.dart';
+import 'package:mindmatch/core/theme/mindmatch_theme.dart';
+import 'package:mindmatch/features/quiz/domain/models/quiz_question.dart';
+import 'package:mindmatch/features/challenges/data/challenge_codec.dart';
+import 'package:mindmatch/features/history/data/mindmatch_history.dart';
+import 'package:mindmatch/features/results/presentation/pages/result_screen.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
