@@ -45,34 +45,34 @@ class MindMatchAds {
   Future<void> _initialize() async {
     if (defaultTargetPlatform != TargetPlatform.android) return;
 
-    final consentUpdate = Completer<void>();
-    ConsentInformation.instance.requestConsentInfoUpdate(
-      ConsentRequestParameters(),
-      () {
-        if (!consentUpdate.isCompleted) consentUpdate.complete();
-      },
-      (FormError error) {
-        if (!consentUpdate.isCompleted) consentUpdate.complete();
-      },
-    );
-
     try {
-      await consentUpdate.future.timeout(const Duration(seconds: 12));
-    } on TimeoutException {
-      // Continue only if UMP confirms that a previous valid choice allows ads.
-    }
+      final consentUpdate = Completer<void>();
+      ConsentInformation.instance.requestConsentInfoUpdate(
+        ConsentRequestParameters(),
+        () {
+          if (!consentUpdate.isCompleted) consentUpdate.complete();
+        },
+        (FormError error) {
+          if (!consentUpdate.isCompleted) consentUpdate.complete();
+        },
+      );
 
-    final formCompleted = Completer<void>();
-    ConsentForm.loadAndShowConsentFormIfRequired((FormError? error) {
-      if (!formCompleted.isCompleted) formCompleted.complete();
-    });
-    try {
-      await formCompleted.future.timeout(const Duration(seconds: 45));
-    } on TimeoutException {
-      // A missing consent form must never block the offline quiz experience.
-    }
+      try {
+        await consentUpdate.future.timeout(const Duration(seconds: 12));
+      } on TimeoutException {
+        // Ads remain disabled unless UMP confirms that requests are allowed.
+      }
 
-    try {
+      final formCompleted = Completer<void>();
+      ConsentForm.loadAndShowConsentFormIfRequired((FormError? error) {
+        if (!formCompleted.isCompleted) formCompleted.complete();
+      });
+      try {
+        await formCompleted.future.timeout(const Duration(seconds: 45));
+      } on TimeoutException {
+        // A missing consent form must never block the offline quiz experience.
+      }
+
       _privacyOptionsRequired =
           await ConsentInformation.instance.getPrivacyOptionsRequirementStatus() ==
               PrivacyOptionsRequirementStatus.required;
@@ -84,9 +84,12 @@ class MindMatchAds {
       _adsReady = true;
       _loadInterstitial();
       _loadRewarded();
-    } catch (_) {
-      // Ads are optional; the core quiz remains fully usable without them.
+    } catch (error, stackTrace) {
+      // UMP and AdMob are optional. Any plugin/platform failure disables ads,
+      // but must not escape into the app's startup flow.
       _adsReady = false;
+      debugPrint('MINDMATCH ads initialization failed: $error');
+      debugPrintStack(stackTrace: stackTrace);
     }
   }
 
@@ -220,7 +223,15 @@ class _MindMatchBannerAdState extends State<MindMatchBannerAd> {
   }
 
   Future<void> _prepareBanner() async {
-    await MindMatchAds.instance.initialize();
+    await Future<void>.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    try {
+      await MindMatchAds.instance.initialize();
+    } catch (error, stackTrace) {
+      debugPrint('MINDMATCH banner initialization failed: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      return;
+    }
     if (!mounted || !MindMatchAds.instance.isReady) return;
 
     final banner = BannerAd(
@@ -281,7 +292,15 @@ class _MindMatchNativeAdState extends State<MindMatchNativeAd> {
   }
 
   Future<void> _prepareNativeAd() async {
-    await MindMatchAds.instance.initialize();
+    await Future<void>.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    try {
+      await MindMatchAds.instance.initialize();
+    } catch (error, stackTrace) {
+      debugPrint('MINDMATCH native ad initialization failed: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      return;
+    }
     if (!mounted || !MindMatchAds.instance.isReady) return;
 
     final ad = NativeAd(
